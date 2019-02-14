@@ -37,7 +37,7 @@ public class VenueServiceImpl implements VenueService {
 	}
 
 	@Override
-	public Venue Save(Venue v){
+	public Venue save(Venue v){
 		return venueRepository.save(v);
 	}
 }
