@@ -25,10 +25,6 @@ public class VenueServiceImpl implements VenueService {
 	@Autowired
 	private VenueRepository venueRepository;
 	
-	@Override
-	public void Save(Venue v){
-		venueRepository.save(v);
-	}
 	
 	@Override
 	public long count() {
@@ -40,4 +36,8 @@ public class VenueServiceImpl implements VenueService {
 		return venueRepository.findAll();
 	}
 
+	@Override
+	public Venue Save(Venue v){
+		return venueRepository.save(v);
+	}
 }

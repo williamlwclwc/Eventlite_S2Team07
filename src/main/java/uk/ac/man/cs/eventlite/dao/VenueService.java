@@ -8,6 +8,6 @@ public interface VenueService {
 
 	public Iterable<Venue> findAll();
 	
-	public void Save(Venue v);	
+	public Venue Save(Venue v);	
 	
 }
