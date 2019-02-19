@@ -37,6 +37,13 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		example.setVenue(1);
 		
 		eventService.save(example);	
+		
+		Venue testVenue = new Venue();
+		testVenue.setName("testVenue");
+		testVenue.setCapacity(100);
+		
+		venueService.save(testVenue);
+		
 		if (eventService.count() > 0) {
 			log.info("Database already populated. Skipping data initialization.");
 			return;
