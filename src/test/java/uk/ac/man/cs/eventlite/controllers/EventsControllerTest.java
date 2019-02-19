@@ -72,15 +72,15 @@ public class EventsControllerTest {
 	@Test
 	public void getIndexWhenNoEvents() throws Exception {
 		when(eventService.findAll()).thenReturn(Collections.<Event> emptyList());
-		when(venueService.findAll()).thenReturn(Collections.<Venue> emptyList());
+
 
 		mvc.perform(get("/events").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
 				.andExpect(view().name("events/index")).andExpect(handler().methodName("getAllEvents"));
 
 		verify(eventService).findAll();
-		verify(venueService).findAll();
+
 		verifyZeroInteractions(event);
-		verifyZeroInteractions(venue);
+
 	}
 
 	@Test
@@ -92,8 +92,8 @@ public class EventsControllerTest {
 				.andExpect(view().name("events/index")).andExpect(handler().methodName("getAllEvents"));
 
 		verify(eventService).findAll();
-		verify(venueService).findAll();
+
 		verifyZeroInteractions(event);
-		verifyZeroInteractions(venue);
+
 	}
 }

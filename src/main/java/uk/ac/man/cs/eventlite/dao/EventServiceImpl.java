@@ -22,7 +22,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	public Iterable<Event> findAll() {
-		return eventRepository.findAll();
+		return eventRepository.findAllByOrderByDateAscTimeAsc();
 	}
 	
 	public Event save(Event e) {

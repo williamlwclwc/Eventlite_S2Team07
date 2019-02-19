@@ -30,14 +30,10 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 
-		Event example = new Event();
-		example.setId(1);
-		example.setName("Apocalypse");
-		example.setDate(new Date(System.currentTimeMillis()));
-		example.setTime(new Date(System.currentTimeMillis()));
-		example.setVenue(1);
-		
-		eventService.save(example);	
+		if (eventService.count() > 0) {
+			log.info("Database already populated. Skipping data initialization.");
+			return;
+		}
 		
 		Venue testVenue = new Venue();
 		testVenue.setName("testVenue");
@@ -45,10 +41,33 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		
 		venueService.save(testVenue);
 		
-		if (eventService.count() > 0) {
-			log.info("Database already populated. Skipping data initialization.");
-			return;
-		}
+		Venue testVenue1 = new Venue();
+		testVenue1.setName("256");
+		testVenue1.setCapacity(100);
+		
+		venueService.save(testVenue1);
+		
+		Event example = new Event();
+		example.setId(1);
+		example.setName("Apocalypse");
+		example.setDate(new Date(System.currentTimeMillis()));
+		example.setTime(new Date(System.currentTimeMillis()));
+		example.setVenue(testVenue);
+		
+		eventService.save(example);	
+		
+		Event example1 = new Event();
+		example1.setId(1);
+		example1.setName("256 night out");
+		example1.setDate(new Date(System.currentTimeMillis() - 100000000));
+		example1.setTime(new Date(System.currentTimeMillis() - 100000000));
+		example1.setVenue(testVenue1);
+		
+		eventService.save(example1);	
+		
+
+		
+		
 
 	}
 }
