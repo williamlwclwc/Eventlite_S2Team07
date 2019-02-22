@@ -48,7 +48,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		venueService.save(testVenue1);
 		
 		Event example = new Event();
-		example.setId(1);
 		example.setName("Apocalypse");
 		example.setDate(new Date(System.currentTimeMillis()));
 		example.setTime(new Date(System.currentTimeMillis()));
@@ -57,7 +56,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		eventService.save(example);	
 		
 		Event example1 = new Event();
-		example1.setId(1);
 		example1.setName("256 night out");
 		example1.setDate(new Date(System.currentTimeMillis() - 100000000));
 		example1.setTime(new Date(System.currentTimeMillis() - 100000000));
