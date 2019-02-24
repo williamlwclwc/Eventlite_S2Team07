@@ -8,13 +8,14 @@
 <body>
   <div layout:fragment="content">
     <div class="jumbotron">
-      <h1>Search for Events</h1>
+      <h2>Search for Events</h2>
 
       <p>This is a search engine for you to find your target events by name</p>
       
       <form action="/events/searchResult" method="get">
         <div class="form-inline">
 	        Search for a event: 
+	        <i class="fa fa-search"></i>
 	        <input class="form-control"type="text" name="Search for events">
 	        <input class="btn btn-default" type	="submit" value="Search">
         </div>
