@@ -28,4 +28,8 @@ public class EventServiceImpl implements EventService {
 	public Event save(Event e) {
 		return eventRepository.save(e);
 	}
+	
+	public Event findById(long id) {
+		return eventRepository.findOne(id);
+    }
 }

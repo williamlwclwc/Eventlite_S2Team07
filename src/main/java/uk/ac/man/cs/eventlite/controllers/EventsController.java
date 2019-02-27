@@ -37,17 +37,7 @@ public class EventsController {
 	public String viewEvent(@PathVariable("id") long id, Model model) {
 
 		
-		Iterable<Event> events = new ArrayList<Event>();
-		events = eventService.findAll();
-		Iterator<Event> itr = events.iterator();
-		boolean found = false;
-		Event event = null;
-		while(itr.hasNext() && found == false)
-		{
-			event = itr.next();
-			if(event.getId() == id)
-				found = true;
-		}
+		Event event = eventService.findById(id);
 		model.addAttribute("event", event);
 		return "events/view";
     }
