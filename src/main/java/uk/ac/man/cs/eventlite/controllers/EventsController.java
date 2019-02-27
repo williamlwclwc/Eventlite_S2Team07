@@ -1,7 +1,5 @@
 package uk.ac.man.cs.eventlite.controllers;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
