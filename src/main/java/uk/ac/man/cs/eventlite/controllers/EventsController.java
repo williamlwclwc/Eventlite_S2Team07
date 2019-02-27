@@ -1,14 +1,19 @@
 package uk.ac.man.cs.eventlite.controllers;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import uk.ac.man.cs.eventlite.dao.EventService;
 import uk.ac.man.cs.eventlite.dao.VenueService;
+import uk.ac.man.cs.eventlite.entities.Event;
 
 @Controller
 @RequestMapping(value = "/events", produces = { MediaType.TEXT_HTML_VALUE })
@@ -27,5 +32,26 @@ public class EventsController {
 
 		return "events/index";
 	}
+	
+	@RequestMapping(value = "events/{id}", method = RequestMethod.GET)
+	public String viewEvent(@PathVariable("id") long id, Model model) {
+
+		
+		Iterable<Event> events = new ArrayList<Event>();
+		events = eventService.findAll();
+		Iterator<Event> itr = events.iterator();
+		boolean found = false;
+		Event event = null;
+		while(itr.hasNext() && found == false)
+		{
+			event = itr.next();
+			if(event.getId() == id)
+				found = true;
+		}
+		model.addAttribute("event", event);
+		model.addAttribute("venues", venueService.findAll());
+
+		return "events/view";
+    }
 
 }
