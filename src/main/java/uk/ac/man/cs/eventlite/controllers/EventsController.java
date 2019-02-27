@@ -33,7 +33,7 @@ public class EventsController {
 		return "events/index";
 	}
 	
-	@RequestMapping(value = "events/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "view/{id}", method = RequestMethod.GET)
 	public String viewEvent(@PathVariable("id") long id, Model model) {
 
 		
@@ -49,8 +49,6 @@ public class EventsController {
 				found = true;
 		}
 		model.addAttribute("event", event);
-		model.addAttribute("venues", venueService.findAll());
-
 		return "events/view";
     }
 
