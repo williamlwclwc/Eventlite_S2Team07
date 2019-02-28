@@ -8,6 +8,6 @@ import uk.ac.man.cs.eventlite.entities.Event;
 
 public interface EventRepository extends CrudRepository<Event, Long>{
 	
-	public List<Event> findAllByOrderByDateAscTimeAsc();
+	public List<Event> findAllByOrderByDateAscNameAsc();
 	
 }
