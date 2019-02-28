@@ -32,4 +32,12 @@ public class EventServiceImpl implements EventService {
 	public Event findById(long id) {
 		return eventRepository.findOne(id);
 	}
+		
+	public void delete(long id) {
+		eventRepository.delete(id);
+	}
+
+	public void deleteAll() {
+		eventRepository.deleteAll();
+	}
 }

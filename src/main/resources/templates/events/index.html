@@ -28,6 +28,9 @@
           <td th:text="${{e.time}}">Event time</td>
           <td sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
           	<a th:href="@{'/events/update/' + ${e.id}}"><button type="button" class="btn btn-success">Update event</button></a>
+          	<form th:action="@{'/events/' + ${e.id}}" th:method="delete" style="display:inline;">
+				<button type="submit" class="btn btn-danger"><i aria-hidden="true"></i> Delete</button>
+			</form>
           </td>
         </tr>
       </tbody>
@@ -36,7 +39,6 @@
     <div sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
   	  <a href="/events/new"><button type="button" class="btn btn-success">New event</button></a>
 	</div>
-
   </div>
 
 </body>
