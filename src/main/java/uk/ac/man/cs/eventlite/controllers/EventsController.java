@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-
 import uk.ac.man.cs.eventlite.dao.EventService;
 import uk.ac.man.cs.eventlite.dao.VenueService;
 import uk.ac.man.cs.eventlite.entities.Event;
@@ -65,6 +63,33 @@ public class EventsController {
 		redirectAttrs.addFlashAttribute("ok_message", "New event added.");
 
 		return "redirect:/events";
+	}
+
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+	public String editEvent(@PathVariable("id") long id, Model model) {
+
+		Event e = eventService.findById(id);
+		model.addAttribute("event", e);
+		model.addAttribute("venues", venueService.findAll());
+
+		return "events/update";
+	}
+	
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String updateEvent(@RequestBody @Valid @ModelAttribute Event event,
+			BindingResult errors, Model model, RedirectAttributes redirectAttrs) {
+		if (errors.hasErrors()) {
+			model.addAttribute("event", event);
+			model.addAttribute("venues", venueService.findAll());
+			return "events/update";
+		}
+
+		eventService.save(event);
+		redirectAttrs.addFlashAttribute("ok_message", "Event updated.");
+
+		return "redirect:/events";
+
 	}
 
 }
