@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -91,5 +92,14 @@ public class EventsController {
 		return "redirect:/events";
 
 	}
+
+	@RequestMapping(value = "view/{id}", method = RequestMethod.GET)
+	public String viewEvent(@PathVariable("id") long id, Model model) {
+
+		
+		Event event = eventService.findById(id);
+		model.addAttribute("event", event);
+		return "events/view";
+    }
 
 }
