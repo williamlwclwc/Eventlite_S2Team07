@@ -51,6 +51,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		example.setName("Apocalypse");
 		example.setDate(new Date(System.currentTimeMillis()));
 		example.setTime(new Date(System.currentTimeMillis()));
+		example.setDescription("An event for the masses.");
 		example.setVenue(testVenue);
 		
 		eventService.save(example);	
@@ -59,6 +60,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		example1.setName("256 night out");
 		example1.setDate(new Date(System.currentTimeMillis() - 100000000));
 		example1.setTime(new Date(System.currentTimeMillis() - 100000000));
+		example1.setDescription("The best night in 256 so far.");
 		example1.setVenue(testVenue1);
 		
 		eventService.save(example1);	

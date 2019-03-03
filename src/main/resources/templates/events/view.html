@@ -9,13 +9,12 @@
   <div layout:fragment="content">
     <h1 th:text="${event.name}">My Event</h1>
 
+    <h3 th:text="'Date: ' + ${event.date}">Event date</h3>
+    <h3 th:text="'Time: ' + ${event.time}">Event time</h3>
+    <h3> Description: </h3>
+    <p th:text="${event.description}">Event description</p>
     
-    <h2>Date:</h2>
-    <h3 th:text="${{event.date}}">Event date</h3>
-    <h2>Time:</h2>
-    <h3 th:text="${{event.time}}">Event time</h3>
-    
-    <h2>Venue:</h2>
+    <h3>Venue:</h3>
     <table class="table table-striped table-hover">
     <thead>
       <tr>

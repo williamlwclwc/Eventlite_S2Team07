@@ -31,9 +31,10 @@
       </thead>
       <tbody>
 
-      <tr th:if="${events.empty}">
-        <td colspan="2"> No Events Available </td>
-      </tr>
+      	<tr th:if="${events.empty}">
+        	<td colspan="2"> No Events Available </td>
+      	</tr>
+      
         <tr th:each="e, iterStat : ${events}" th:class="${iterStat.odd} ? 'odd': ''">
           <td> <a th:text="${e.name}" th:href="@{'/events/view/' + ${e.id}}">View event</a></td>
           <td th:text="${e.venue.name}">Event venue</td>
@@ -42,7 +43,6 @@
           <td sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
           	<a th:href="@{'/events/update/' + ${e.id}}"><button type="button" class="btn btn-success">Update event</button></a>
           	
-			
           </td>
         </tr>
       </tbody>
