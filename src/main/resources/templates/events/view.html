@@ -30,7 +30,10 @@
       </tr>
     </tbody>
   </table>
-
+  
+  <form th:action="@{'/events/' + ${event.id}}" th:method="delete" style="display:inline;">
+				<button type="submit" class="btn btn-danger"><i aria-hidden="true"></i> Delete</button>
+	</form>
     <a href="/events"><button type="button" class="btn btn-success">Back</button></a>
   </div>
 
