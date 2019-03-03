@@ -14,7 +14,7 @@
       
       <form action="/events/searchResult" method="get">
         <div class="form-inline">
-	        Search for a event: 
+	        Search for events: 
 	        <i class="fa fa-search"></i>
 	        <input class="form-control"type="text" name="Search for events">
 	        <input class="btn btn-default" type	="submit" value="Search">
@@ -26,7 +26,6 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>Id</th>
           <th><i class="fa fa-bolt"></i>Name</th>
           <th><i class="fa fa-calendar"></i>Date</th>
           <th><i class="fa fa-clock-o"></i>Time</th>
@@ -35,7 +34,6 @@
       </thead>
       <tbody>
         <tr th:each="g : ${results}">
-          <td th:text="${g.id}">id</td>
           <td><a th:text="${g.name}" th:href="@{'/events/view/' + ${g.id}}">View event</a></td>
           <td th:text="${g.date}">Date</td>
           <td th:text="${g.time}">Time</td>
