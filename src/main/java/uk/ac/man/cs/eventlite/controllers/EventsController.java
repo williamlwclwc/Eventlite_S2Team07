@@ -1,7 +1,10 @@
 package uk.ac.man.cs.eventlite.controllers;
 
 import javax.validation.Valid;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,16 +116,32 @@ public class EventsController {
 			@RequestParam(value = "Search for events", required = false, defaultValue = "default") 
 			String name, RedirectAttributes redirectAttrs) 
 	{
+		// get current time
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm"); // set format
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat time = new SimpleDateFormat("hh:mm");
+		String currentTime = df.format(new Date());
+		String eventTime;
+		
 		name = name.toLowerCase();
 		int findFlag = 0;
 		Iterable<Event> allEvents = new ArrayList<Event>();
-		ArrayList<Event> resultEvents = new ArrayList<Event>();
+		ArrayList<Event> previousEvents = new ArrayList<Event>();
+		ArrayList<Event> upcomingEvents = new ArrayList<Event>();
 		allEvents = eventService.findAll();
 		Iterator<Event> itr = allEvents.iterator();
 		while(itr.hasNext()) {
 			Event ele = itr.next();
 			if(ele.getName().toLowerCase().indexOf(name) != -1) {
-				resultEvents.add(ele);
+				// get event time as string
+				eventTime = date.format(ele.getDate()) + " " + time.format(ele.getTime());
+				if(eventTime.compareTo(currentTime) < 0) {
+					// previous
+					previousEvents.add(ele);
+				} else {
+					// upcoming
+					upcomingEvents.add(ele);
+				}
 				findFlag = 1;
 			}
 		}
@@ -131,7 +150,8 @@ public class EventsController {
 			redirectAttrs.addFlashAttribute("failed_message", "Events not found.");
 			return "redirect:/events";
 		}
-		model.addAttribute("results", resultEvents);
+		model.addAttribute("previousResults", previousEvents);
+		model.addAttribute("upcomingResults", upcomingEvents);
 		return "/events/searchResult";
 	}
 			
