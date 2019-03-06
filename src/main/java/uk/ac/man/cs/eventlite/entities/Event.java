@@ -15,6 +15,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 @Entity
 @Table(name = "events")
 public class Event {
@@ -23,20 +29,27 @@ public class Event {
 	@GeneratedValue
 	private long id;
 
+	@NotNull
+	@Future
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date date;
 
+	
 	@Temporal(TemporalType.TIME)
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	@DateTimeFormat(pattern = "HH:mm")
 	private Date time;
 
+	@NotNull
+	@Size(min=1, max=255)
 	private String name;
 	
+	@Size(min=0, max=499)
 	private String description;
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "venue", nullable = false)
 	private Venue venue;
