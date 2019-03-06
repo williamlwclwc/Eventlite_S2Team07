@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{layouts/default}">
 <head>
-  <title>New</title>
+  <title>Update</title>
 </head>
 <body>
   <div layout:fragment="content">
-    <h1>Add a new event</h1>
+    <h1>Update event</h1>
     <form action="#" th:action="@{/events/update}" th:object="${event}" method="post">
       <div class="form-group" th:classappend="${#fields.hasErrors('name')}? has-error">
         <label for="name">Event name</label>
@@ -14,6 +14,12 @@
         <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">errors</p>
       </div>
       
+      <div class="form-group" th:classappend="${#fields.hasErrors('description')}? has-error">
+        <label for="description">Event description</label>
+        <input class="form-control" type="text" name="description" id="description" th:value="${event.description}"/>
+        <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">errors</p>
+      </div>
+  
 
       <div class="form-group" th:classappend="${#fields.hasErrors('date')}? has-error">
         <label for="date">Event date</label>
