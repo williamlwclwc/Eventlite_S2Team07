@@ -10,4 +10,9 @@ public interface VenueService {
 	
 	public Venue save(Venue v);	
 	
+	public Venue findById(long id);
+	
+	public void delete(long id);
+
+	public void deleteAll();
 }

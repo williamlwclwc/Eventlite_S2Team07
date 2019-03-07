@@ -11,6 +11,8 @@ public class Venue {
 	private long id;
 
 	private String name;
+	
+	private String address;
 
 	private int capacity;
 
@@ -40,4 +42,14 @@ public class Venue {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	
 }

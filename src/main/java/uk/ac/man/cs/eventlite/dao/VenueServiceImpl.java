@@ -40,4 +40,21 @@ public class VenueServiceImpl implements VenueService {
 	public Venue save(Venue v){
 		return venueRepository.save(v);
 	}
+
+	@Override
+	public Venue findById(long id) {
+		return venueRepository.findOne(id);
+	}
+
+	@Override
+	public void delete(long id) {
+		venueRepository.delete(id);
+		
+	}
+
+	@Override
+	public void deleteAll() {
+		venueRepository.deleteAll();
+		
+	}
 }
