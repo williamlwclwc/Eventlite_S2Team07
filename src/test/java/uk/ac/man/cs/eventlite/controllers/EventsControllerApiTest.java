@@ -65,7 +65,7 @@ public class EventsControllerApiTest {
 		when(eventService.findAllFutureEvents()).thenReturn(Collections.<Event> emptyList());
 
 		mvc.perform(get("/api/events").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect(handler().methodName("getAllEvents")).andExpect(jsonPath("$.length()", equalTo(1)))
+				.andExpect(handler().methodName("getAllFutureEvents")).andExpect(jsonPath("$.length()", equalTo(1)))
 				.andExpect(jsonPath("$._links.self.href", endsWith("/api/events")));
 
 		verify(eventService).findAllFutureEvents();
@@ -77,7 +77,7 @@ public class EventsControllerApiTest {
 		when(eventService.findAllFutureEvents()).thenReturn(Collections.<Event> singletonList(e));
 
 		mvc.perform(get("/api/events").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect(handler().methodName("getAllEvents")).andExpect(jsonPath("$.length()", equalTo(2)))
+				.andExpect(handler().methodName("getAllFutureEvents")).andExpect(jsonPath("$.length()", equalTo(2)))
 				.andExpect(jsonPath("$._links.self.href", endsWith("/api/events")))
 				.andExpect(jsonPath("$._embedded.events.length()", equalTo(1)));
 
