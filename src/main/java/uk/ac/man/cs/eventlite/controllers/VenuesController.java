@@ -108,32 +108,32 @@ public class VenuesController {
 //		
 //	}	
 //
-//	@RequestMapping(value = "/searchResult", method = RequestMethod.GET)
-//	public String resultVenues(Model model, 
-//			@RequestParam(value = "Search for venues", required = false, defaultValue = "default") 
-//			String name, RedirectAttributes redirectAttrs) 
-//	{
-//		name = name.toLowerCase();
-//		int findFlag = 0;
-//		Iterable<Venue> allVenues = new ArrayList<Venue>();
-//		ArrayList<Venue> resultVenues = new ArrayList<Venue>();
-//		allVenues = venueService.findAll();
-//		Iterator<Venue> itr = allVenues.iterator();
-//		while(itr.hasNext()) {
-//			Venue ele = itr.next();
-//			if(ele.getName().toLowerCase().indexOf(name) != -1) {
-//				resultVenues.add(ele);
-//				findFlag = 1;
-//			}
-//		}
-//		// if not found any results
-//		if(findFlag == 0) {
-//			redirectAttrs.addFlashAttribute("failed_message", "Venues not found.");
-//			return "redirect:/venues";
-//		}
-//		model.addAttribute("results", resultVenues);
-//		return "/venues/searchResult";
-//	}
+	@RequestMapping(value = "/searchResult", method = RequestMethod.GET)
+	public String resultVenues(Model model, 
+			@RequestParam(value = "Search for venues", required = false, defaultValue = "default") 
+			String name, RedirectAttributes redirectAttrs) 
+	{
+		name = name.toLowerCase();
+		int findFlag = 0;
+		Iterable<Venue> allVenues = new ArrayList<Venue>();
+		ArrayList<Venue> resultVenues = new ArrayList<Venue>();
+		allVenues = venueService.findAll();
+		Iterator<Venue> itr = allVenues.iterator();
+		while(itr.hasNext()) {
+			Venue ele = itr.next();
+			if(ele.getName().toLowerCase().indexOf(name) != -1) {
+				resultVenues.add(ele);
+				findFlag = 1;
+			}
+		}
+		// if not found any results
+		if(findFlag == 0) {
+			redirectAttrs.addFlashAttribute("failed_message", "Venues not found.");
+			return "redirect:/venues";
+		}
+		model.addAttribute("results", resultVenues);
+		return "/venues/searchResult";
+	}
 			
 }
 
