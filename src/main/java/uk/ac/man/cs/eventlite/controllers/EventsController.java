@@ -37,7 +37,7 @@ public class EventsController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllEvents(Model model) {
 
-		model.addAttribute("events", eventService.findAll());
+		model.addAttribute("future_events", eventService.findAllFutureEvents());
 
 		return "events/index";
 	}
@@ -128,7 +128,7 @@ public class EventsController {
 		Iterable<Event> allEvents = new ArrayList<Event>();
 		ArrayList<Event> previousEvents = new ArrayList<Event>();
 		ArrayList<Event> upcomingEvents = new ArrayList<Event>();
-		allEvents = eventService.findAll();
+		allEvents = eventService.findAllFutureEvents();
 		Iterator<Event> itr = allEvents.iterator();
 		while(itr.hasNext()) {
 			Event ele = itr.next();

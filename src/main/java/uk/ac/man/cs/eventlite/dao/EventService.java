@@ -6,7 +6,9 @@ public interface EventService {
 
 	public long count();
 
-	public Iterable<Event> findAll();
+	public Iterable<Event> findAllFutureEvents();
+	
+	public Iterable<Event> findAllPastEvents();
 	
 	public Event save(Event e);
 

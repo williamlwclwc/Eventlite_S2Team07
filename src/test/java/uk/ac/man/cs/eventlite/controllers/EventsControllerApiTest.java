@@ -62,25 +62,25 @@ public class EventsControllerApiTest {
 
 	@Test
 	public void getIndexWhenNoEvents() throws Exception {
-		when(eventService.findAll()).thenReturn(Collections.<Event> emptyList());
+		when(eventService.findAllFutureEvents()).thenReturn(Collections.<Event> emptyList());
 
 		mvc.perform(get("/api/events").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(handler().methodName("getAllEvents")).andExpect(jsonPath("$.length()", equalTo(1)))
 				.andExpect(jsonPath("$._links.self.href", endsWith("/api/events")));
 
-		verify(eventService).findAll();
+		verify(eventService).findAllFutureEvents();
 	}
 
 	@Test
 	public void getIndexWithEvents() throws Exception {
 		Event e = new Event();
-		when(eventService.findAll()).thenReturn(Collections.<Event> singletonList(e));
+		when(eventService.findAllFutureEvents()).thenReturn(Collections.<Event> singletonList(e));
 
 		mvc.perform(get("/api/events").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(handler().methodName("getAllEvents")).andExpect(jsonPath("$.length()", equalTo(2)))
 				.andExpect(jsonPath("$._links.self.href", endsWith("/api/events")))
 				.andExpect(jsonPath("$._embedded.events.length()", equalTo(1)));
 
-		verify(eventService).findAll();
+		verify(eventService).findAllFutureEvents();
 	}
 }

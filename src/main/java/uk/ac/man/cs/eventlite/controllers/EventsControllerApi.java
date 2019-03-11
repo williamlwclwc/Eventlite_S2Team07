@@ -27,9 +27,9 @@ public class EventsControllerApi {
 	private EventService eventService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public Resources<Resource<Event>> getAllEvents() {
+	public Resources<Resource<Event>> getAllFutureEvents() {
 
-		return eventToResource(eventService.findAll());
+		return futureEventToResource(eventService.findAllFutureEvents());
 	}
 
 	private Resource<Event> eventToResource(Event event) {
@@ -38,11 +38,11 @@ public class EventsControllerApi {
 		return new Resource<Event>(event, selfLink);
 	}
 
-	private Resources<Resource<Event>> eventToResource(Iterable<Event> events) {
-		Link selfLink = linkTo(methodOn(EventsControllerApi.class).getAllEvents()).withSelfRel();
+	private Resources<Resource<Event>> futureEventToResource(Iterable<Event> futureEvents) {
+		Link selfLink = linkTo(methodOn(EventsControllerApi.class).getAllFutureEvents()).withSelfRel();
 
 		List<Resource<Event>> resources = new ArrayList<Resource<Event>>();
-		for (Event event : events) {
+		for (Event event : futureEvents) {
 			resources.add(eventToResource(event));
 		}
 
