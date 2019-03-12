@@ -5,6 +5,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Transient;
 
 @Entity
@@ -15,26 +16,24 @@ public class Venue {
 	@GeneratedValue
 	private long id;
 
+    @NotBlank(message = "The name may not be blank.")
+    @Size(max=255, message = "Must be less than 256 characters.")
 	private String name;
 	
-	@NotNull
-	@Size(min=1, max=256)
+	@NotBlank(message = "The Street name may not be blank.")
+	@Size(max=299, message = "Must be less than 300 characters.")
 	private String roadName;
-	@NotNull
-	@Size(min=6, max=8)
+	@NotBlank(message = "The postcode may not be blank.")
+	@Size(min=6, max=8, message = "Make sure the postcode is correct.")
 	private String postCode;
 
-	@NotNull
 	@Transient
-	@Size(min=7, max=256)
-	private String address = roadName + "\n" + postCode;
+	private String address;
 	
 	@PostLoad
 	public void postLoad(){
-		this.address = roadName + "\n, " + postCode ;
+		this.address = roadName + ", " + postCode ;
 	}
-	
-	
 
 	@NotNull
 	@Min(0)
