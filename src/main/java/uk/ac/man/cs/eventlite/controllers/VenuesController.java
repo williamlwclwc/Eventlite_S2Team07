@@ -99,14 +99,14 @@ public class VenuesController {
 //		return "venues/view";
 //    }
 //
-//	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-//	public String deleteVenue(@PathVariable("id") long id) {
-//		
-//			venueService.delete(id);
-//			return "redirect:/venues";
-//		
-//		
-//	}	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public String deleteVenue(@PathVariable("id") long id) {
+		
+			venueService.delete(id);
+			return "redirect:/venues";
+		
+		
+	}	
 //
 //	@RequestMapping(value = "/searchResult", method = RequestMethod.GET)
 //	public String resultVenues(Model model, 
