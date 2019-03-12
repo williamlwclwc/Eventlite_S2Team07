@@ -1,5 +1,6 @@
 package uk.ac.man.cs.eventlite.controllers;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -101,9 +102,15 @@ public class VenuesController {
 //
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public String deleteVenue(@PathVariable("id") long id) {
-		
-			venueService.delete(id);
-			return "redirect:/venues";
+	
+			try {
+				venueService.delete(id);
+				return "redirect:/venues";
+			}
+			catch (Exception e) {
+				
+				return "redirect:/venues";
+			}
 		
 		
 	}	
