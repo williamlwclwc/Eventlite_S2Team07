@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -29,7 +30,7 @@ public class Event {
 	@GeneratedValue
 	private long id;
 
-	@NotNull
+	@NotBlank(message = "Date may not be blank")
 	@Future
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
@@ -42,8 +43,8 @@ public class Event {
 	@DateTimeFormat(pattern = "HH:mm")
 	private Date time;
 
-	@NotNull
-	@Size(min=1, max=255)
+    @NotBlank(message = "The name may not be blank.")
+    @Size(max=255, message = "Must be less than 256 characters.")
 	private String name;
 	
 	@Size(min=0, max=499)
