@@ -8,16 +8,10 @@
 <body>
   <div layout:fragment="content">
     <h1 th:text="${venue.name}">My Venue</h1>
-
-    <h3 th:text="'Date: ' + ${venue.date}">Venue date</h3>
-    <h3 th:text="'Time: ' + ${venue.time}">Venue time</h3>
+    <h3 th:text="'Capacity: ' + ${venue.capacity}">Venue capacity</h3>
     <h3 th:text="'Address: ' + ${venue.address}">Venue address</h3>
     
-  
-    <form th:action="@{'/venues/' + ${venue.id}}" th:method="delete" style="display:inline;">
-	    <button type="submit" class="btn btn-danger"><i aria-hidden="true"></i> Delete</button>
-    </form>
-    <!--<form th:action="@{'/venues/' + ${venue.id}}" th:method="delete" style="display:inline;">
+    <!--<form th:action="@{'/events/' + ${event.id}}" th:method="delete" style="display:inline;">
 				<button type="submit" class="btn btn-danger"><i aria-hidden="true"></i> Delete</button>
 	</form>-->
     <a href="/venues"><button type="button" class="btn btn-success">Back</button></a>
