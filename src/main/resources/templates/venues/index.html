@@ -24,7 +24,7 @@
 
         <tr th:each="v : ${venues}">
           
-          <td th:text="${v.name}">Venue venue</td>
+          <td> <a th:text="${v.name}" th:href="@{'/venues/view/' + ${v.id}}">View venue</a></td>
           <td th:text="${{v.address}}">Venue address</td>
           <td th:text="${{v.capacity}}">Venue capacity</td>
           <td></td>
