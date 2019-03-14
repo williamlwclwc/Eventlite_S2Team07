@@ -12,4 +12,5 @@ public interface EventRepository extends CrudRepository<Event, Long>{
 	
 	public List<Event> findByDateBeforeOrderByDateDescNameAsc(Date date);
 	
+	public List<Event> findAllByOrderByDateAscNameAsc();
 }

@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<head>
+  <title>Search</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <div class="jumbotron">
+      <h2>Search for Venues</h2>
+
+      <p>This is a search engine for you to find your target venues by name</p>
+      
+      <form action="/venues/searchResult" method="get">
+        <div class="form-inline">
+	        Search for venues: 
+	        <i class="fa fa-search"></i>
+	        <input class="form-control"type="text" name="Search for venues">
+	        <input class="btn btn-default" type	="submit" value="Search">
+        </div>
+      </form>
+      
+    </div>
+    
+    
+    <div>
+	    <h3>Searching Results</h3>
+	    
+	    <table class="table table-striped table-hover">
+	      <thead>
+	        <tr>
+	          <th class="col-md-3"><i class="fa fa-bolt"></i>Name</th>
+	          <th class="col-md-3"><i class="fa fa-map-marker"></i>Address</th>
+	          <th class="col-md-3"><i class="fa fa-building"></i>Capacity</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	        <tr th:each="g : ${results}">
+	          <td><a th:text="${g.name}" th:href="@{'/venues/view/' + ${g.id}}">View venue</a></td>
+	          <td th:text="${g.address}">Address</td>
+	          <td th:text="${g.capacity}">Capacity</td>
+	        </tr>
+	      </tbody>
+	    </table>
+    </div>
+    
+    <a href="/venues"><button type="button" class="btn btn-success">Back</button></a>
+ 
+  </div>
+</body>
+</html>

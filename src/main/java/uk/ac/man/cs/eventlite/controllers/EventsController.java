@@ -129,7 +129,7 @@ public class EventsController {
 		Iterable<Event> allEvents = new ArrayList<Event>();
 		ArrayList<Event> previousEvents = new ArrayList<Event>();
 		ArrayList<Event> upcomingEvents = new ArrayList<Event>();
-		allEvents = eventService.findAllFutureEvents();
+		allEvents = eventService.findAll();
 		Iterator<Event> itr = allEvents.iterator();
 		while(itr.hasNext()) {
 			Event ele = itr.next();

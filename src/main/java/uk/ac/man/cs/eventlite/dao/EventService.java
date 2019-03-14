@@ -10,6 +10,8 @@ public interface EventService {
 	
 	public Iterable<Event> findAllPastEvents();
 	
+	public Iterable<Event> findAll();
+	
 	public Event save(Event e);
 
 	public Event findById(long id);
