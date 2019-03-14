@@ -28,8 +28,8 @@ import uk.ac.man.cs.eventlite.EventLite;
 @SpringBootTest(classes = EventLite.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
 @ActiveProfiles("test")
-public class EventsControllerIntegrationTest extends AbstractTransactionalJUnit4SpringContextTests {
-
+public class VenuesControllerIntegrationTest extends AbstractTransactionalJUnit4SpringContextTests {
+	
 	private HttpEntity<String> httpEntity;
 
 	@Autowired
@@ -44,15 +44,15 @@ public class EventsControllerIntegrationTest extends AbstractTransactionalJUnit4
 	}
 
 	@Test
-	public void testGetAllEvents() {
-		ResponseEntity<String> response = template.exchange("/events", HttpMethod.GET, httpEntity, String.class);
+	public void testGetAllVenues() {
+		ResponseEntity<String> response = template.exchange("/venues", HttpMethod.GET, httpEntity, String.class);
 
 		assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
 	}
 	
 	@Test
-	public void testSearchEvents() {
-		ResponseEntity<String> response = template.exchange("/events/searchResult", HttpMethod.GET, httpEntity, String.class);
+	public void testSearchVenues() {
+		ResponseEntity<String> response = template.exchange("/venues/searchResult", HttpMethod.GET, httpEntity, String.class);
 		
 		assertThat(response.getStatusCode(), equalTo(HttpStatus.FOUND));
 	}
