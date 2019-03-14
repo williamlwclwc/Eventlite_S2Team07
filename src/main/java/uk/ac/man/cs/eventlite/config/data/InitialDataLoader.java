@@ -82,6 +82,36 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			apple.setVenue(venueA);
 			
 			eventService.save(apple);
+			
+			Event former = new Event();
+			former.setName("Event Former");
+			Date date4 = ft.parse("2018-01-11 11:00");
+			former.setDate(date4);
+			former.setTime(date4);
+			former.setDescription("The best night in 256 so far.");
+			former.setVenue(venueB);
+			
+			eventService.save(former);
+			
+			Event previous = new Event();
+			previous.setName("Event Previous");
+			Date date5 = ft.parse("2018-01-11 18:30");
+			previous.setDate(date5);
+			previous.setTime(date5);
+			previous.setDescription("The best night in 256 so far.");
+			previous.setVenue(venueA);
+			
+			eventService.save(previous);
+			
+			Event past = new Event();
+			past.setName("Event Past");
+			Date date6 = ft.parse("2018-01-10 17:00");
+			past.setDate(date6);
+			past.setTime(date6);
+			past.setDescription("The best night in 256 so far.");
+			past.setVenue(venueA);
+			
+			eventService.save(past);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

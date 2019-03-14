@@ -31,21 +31,38 @@
       </thead>
       <tbody>
 
-      <tr th:if="${future_events.empty}">
-        <td colspan="2"> No Future Events Available </td>
-      </tr>
-      <tr th:if="${!future_events.empty}">
-        <td colspan="2"> Future Events: </td>
-      </tr>
-        <tr th:each="e, iterStat : ${future_events}" th:class="${iterStat.odd} ? 'odd': ''">
-          <td> <a th:text="${e.name}" th:href="@{'/events/view/' + ${e.id}}">View event</a></td>
-          <td th:text="${e.venue.name}">Event venue</td>
-          <td th:text="${{e.date}}">Event date</td>
-          <td th:text="${{e.time}}">Event time</td>
+        <tr th:if="${future_events.empty}">
+          <td colspan="2"> No Future Events Available </td>
+        </tr>
+        <tr th:if="${!future_events.empty}">
+          <td colspan="2"> Future Events: </td>
+        </tr>
+        <tr th:each="fe, iterStat : ${future_events}" th:class="${iterStat.odd} ? 'odd': ''">
+          <td> <a th:text="${fe.name}" th:href="@{'/events/view/' + ${fe.id}}">View event</a></td>
+          <td th:text="${fe.venue.name}">Event venue</td>
+          <td th:text="${{fe.date}}">Event date</td>
+          <td th:text="${{fe.time}}">Event time</td>
           <td sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
-          	<a th:href="@{'/events/update/' + ${e.id}}"><button type="button" class="btn btn-success">Update event</button></a>
+          	<a th:href="@{'/events/update/' + ${fe.id}}"><button type="button" class="btn btn-success">Update event</button></a>
           </td>
         </tr>
+        
+        <tr th:if="${past_events.empty}">
+          <td colspan="2"> No Past Events Available </td>
+        </tr>
+        <tr th:if="${!past_events.empty}">
+          <td colspan="2"> Past Events: </td>
+        </tr>
+        <tr th:each="pe, iterStat : ${past_events}" th:class="${iterStat.odd} ? 'odd': ''">
+          <td> <a th:text="${pe.name}" th:href="@{'/events/view/' + ${pe.id}}">View event</a></td>
+          <td th:text="${pe.venue.name}">Event venue</td>
+          <td th:text="${{pe.date}}">Event date</td>
+          <td th:text="${{pe.time}}">Event time</td>
+          <td sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
+          	<a th:href="@{'/events/update/' + ${pe.id}}"><button type="button" class="btn btn-success">Update event</button></a>
+          </td>
+        </tr>
+        
       </tbody>
     </table>
     
