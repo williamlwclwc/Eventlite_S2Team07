@@ -114,14 +114,14 @@ public class VenuesController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public String deleteVenue(@PathVariable("id") long id) {
 	
-//			try {
+			try {
 				venueService.delete(id);
 				return "redirect:/venues";
-//			}
-//			catch (Exception e) {
-//				System.out.println();
-//				return "redirect:/venues";
-//			}
+			}
+			catch (Exception e) {
+				System.out.println();
+				return "redirect:/venues";
+			}
 		
 		
 	}	
