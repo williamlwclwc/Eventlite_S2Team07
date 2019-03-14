@@ -1,5 +1,6 @@
 package uk.ac.man.cs.eventlite.controllers;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 import java.text.SimpleDateFormat;
@@ -75,7 +76,82 @@ public class VenuesController {
 		redirectAttrs.addFlashAttribute("ok_message", "Venue updated.");
 
 		return "redirect:/venues";
-
 	}
+//	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+//	public String editVenue(@PathVariable("id") long id, Model model) {
+//
+//		Venue e = venueService.findById(id);
+//		model.addAttribute("venue", e);
+//		model.addAttribute("venues", venueService.findAll());
+//
+//		return "venues/update";
+//	}
+//	
+//	
+//	@RequestMapping(value = "/update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+//	public String updateVenue(@RequestBody @Valid @ModelAttribute Venue venue,
+//			BindingResult errors, Model model, RedirectAttributes redirectAttrs) {
+//		if (errors.hasErrors()) {
+//			model.addAttribute("venue", venue);
+//			model.addAttribute("venues", venueService.findAll());
+//			return "venues/update";
+//		}
+//
+//		venueService.save(venue);
+//		redirectAttrs.addFlashAttribute("ok_message", "Venue updated.");
+//
+//		return "redirect:/venues";
+//
+//	}
+//
+//	@RequestMapping(value = "view/{id}", method = RequestMethod.GET)
+//	public String viewVenue(@PathVariable("id") long id, Model model) {
+//		Venue venue = venueService.findById(id);
+//		model.addAttribute("venue", venue);
+//		return "venues/view";
+//    }
+//
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public String deleteVenue(@PathVariable("id") long id) {
+	
+//			try {
+				venueService.delete(id);
+				return "redirect:/venues";
+//			}
+//			catch (Exception e) {
+//				System.out.println();
+//				return "redirect:/venues";
+//			}
+		
+		
+	}	
+//
+//	@RequestMapping(value = "/searchResult", method = RequestMethod.GET)
+//	public String resultVenues(Model model, 
+//			@RequestParam(value = "Search for venues", required = false, defaultValue = "default") 
+//			String name, RedirectAttributes redirectAttrs) 
+//	{
+//		name = name.toLowerCase();
+//		int findFlag = 0;
+//		Iterable<Venue> allVenues = new ArrayList<Venue>();
+//		ArrayList<Venue> resultVenues = new ArrayList<Venue>();
+//		allVenues = venueService.findAll();
+//		Iterator<Venue> itr = allVenues.iterator();
+//		while(itr.hasNext()) {
+//			Venue ele = itr.next();
+//			if(ele.getName().toLowerCase().indexOf(name) != -1) {
+//				resultVenues.add(ele);
+//				findFlag = 1;
+//			}
+//		}
+//		// if not found any results
+//		if(findFlag == 0) {
+//			redirectAttrs.addFlashAttribute("failed_message", "Venues not found.");
+//			return "redirect:/venues";
+//		}
+//		model.addAttribute("results", resultVenues);
+//		return "/venues/searchResult";
+//	}
+			
 }
 

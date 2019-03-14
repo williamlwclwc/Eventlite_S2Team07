@@ -30,7 +30,7 @@ public class Event {
 	@GeneratedValue
 	private long id;
 
-	@NotBlank(message = "Date may not be blank")
+	@NotNull(message = "Date may not be blank")
 	@Future
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
