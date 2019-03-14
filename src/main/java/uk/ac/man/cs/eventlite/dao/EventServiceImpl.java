@@ -30,7 +30,7 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	public Iterable<Event> findAllPastEvents() {
-		return eventRepository.findByDateBeforeOrderByDateDescNameDesc(currentDate);
+		return eventRepository.findByDateBeforeOrderByDateDescNameAsc(currentDate);
 	}
 	
 	public Event save(Event e) {
