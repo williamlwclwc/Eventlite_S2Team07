@@ -54,6 +54,21 @@ public class VenuesController {
 		return "venues/new";
 	}
 	
+	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String createEvent(@RequestBody @Valid @ModelAttribute Venue venue,
+			BindingResult errors, Model model, RedirectAttributes redirectAttrs) {
+
+		if (errors.hasErrors()) {
+			model.addAttribute("venue", venue);
+			return "venues/new";
+		}
+
+		venueService.save(venue);
+		redirectAttrs.addFlashAttribute("ok_message", "New venue added.");
+
+		return "redirect:/venues";
+	}
+	
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String editVenue(@PathVariable("id") long id, Model model) {
 
