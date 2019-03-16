@@ -11,9 +11,9 @@
     <h3 th:text="'Capacity: ' + ${venue.capacity}">Venue capacity</h3>
     <h3 th:text="'Address: ' + ${venue.address}">Venue address</h3>
     
-    <!--<form th:action="@{'/events/' + ${event.id}}" th:method="delete" style="display:inline;">
+    <form th:action="@{'/events/' + ${event.id}}" th:method="delete" style="display:inline;">
 				<button type="submit" class="btn btn-danger"><i aria-hidden="true"></i> Delete</button>
-	</form>-->
+	  </form>
     <a href="/venues"><button type="button" class="btn btn-success">Back</button></a>
   </div>
 
