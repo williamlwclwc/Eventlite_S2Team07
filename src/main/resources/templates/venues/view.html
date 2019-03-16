@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<head>
+  <title th:text="${venue.name}">My Venue</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <h1 th:text="${venue.name}">My Venue</h1>
+    <h3 th:text="'Capacity: ' + ${venue.capacity}">Venue capacity</h3>
+    <h3 th:text="'Address: ' + ${venue.address}">Venue address</h3>
+    
+    <form th:action="@{'/events/' + ${event.id}}" th:method="delete" style="display:inline;">
+				<button type="submit" class="btn btn-danger"><i aria-hidden="true"></i> Delete</button>
+	  </form>
+    <a href="/venues"><button type="button" class="btn btn-success">Back</button></a>
+  </div>
+
+</body>
+</html>
+
+

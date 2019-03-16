@@ -166,7 +166,13 @@ public class VenuesController {
 		}
 		model.addAttribute("results", resultVenues);
 		return "/venues/searchResult";
-	}
-			
+	}		
+	
+	@RequestMapping(value = "view/{id}", method = RequestMethod.GET)
+	public String viewVenue(@PathVariable("id") long id, Model model) {
+		Venue venue = venueService.findById(id);
+		model.addAttribute("venue", venue);
+		return "venues/view";
+    }
 }
 
