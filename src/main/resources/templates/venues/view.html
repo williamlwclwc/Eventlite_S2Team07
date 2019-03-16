@@ -11,10 +11,14 @@
     <h3 th:text="'Capacity: ' + ${venue.capacity}">Venue capacity</h3>
     <h3 th:text="'Address: ' + ${venue.address}">Venue address</h3>
     
-    <form th:action="@{'/events/' + ${event.id}}" th:method="delete" style="display:inline;">
-				<button type="submit" class="btn btn-danger"><i aria-hidden="true"></i> Delete</button>
-	  </form>
-    <a href="/venues"><button type="button" class="btn btn-success">Back</button></a>
+    <div>
+    	<a href="/venues"><button type="button" class="btn btn-success" style="float:left;">Back</button></a>
+    	<div sec:authorize="hasRole('ROLE_ADMINISTRATOR')" style="float:left;padding-left:5px;">
+  	  	<form th:action="@{'/venues/' + ${venue.id}}" th:method="delete" >
+					<button type="submit" class="btn btn-danger"><i aria-hidden="true"></i> Delete</button>
+				</form>
+			</div>
+		</div> 
   </div>
 
 </body>
