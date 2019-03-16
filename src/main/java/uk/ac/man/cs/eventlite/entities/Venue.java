@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Transient;
 
 @Entity
@@ -38,7 +39,13 @@ public class Venue {
 	@NotNull
 	@Min(0)
 	private int capacity;
-
+	
+	@Value("${some.key: 0.0}")
+	private double longitude;
+	
+	@Value("${some.key: 0.0}")
+	private double latitude;
+	
 	public Venue() {
 	}
 
@@ -90,4 +97,19 @@ public class Venue {
 		this.postCode = postCode;
 	}
 	
+	public double getLongitude() {
+		return longitude;
+	}
+	
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+	
+	public double getLatitude() {
+		return latitude;
+	}
+	
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
 }

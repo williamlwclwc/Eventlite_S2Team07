@@ -44,6 +44,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			Venue venueA = new Venue();
 			venueA.setName("Venue A");
 			venueA.setCapacity(100);
+			venueA.setLongitude(50.0);
+			venueA.setLatitude(30.0);
 			
 			venueService.save(venueA);
 			
@@ -53,13 +55,29 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			
 			venueService.save(venueB);
 			
+			Venue kilburn = new Venue();
+			kilburn.setName("Kilburn Building");
+			kilburn.setCapacity(1000);
+			kilburn.setLongitude(53.468283);
+			kilburn.setLatitude(-2.239649);
+			
+			venueService.save(kilburn);
+			
+			Venue barFootage = new Venue();
+			barFootage.setName("Bar Footage");
+			barFootage.setCapacity(50);
+			barFootage.setLongitude(53.469205);
+			barFootage.setLatitude(-2.237385);
+			
+			venueService.save(barFootage);
+			
 			Event alpha = new Event();
 			alpha.setName("Event Alpha");
 			Date date1 = ft.parse("2019-07-11 12:30");
 			alpha.setDate(date1);
 			alpha.setTime(date1);
 			alpha.setDescription("An event for the masses.");
-			alpha.setVenue(venueB);
+			alpha.setVenue(kilburn);
 			
 			eventService.save(alpha);	
 			
@@ -69,7 +87,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			beta.setDate(date2);
 			beta.setTime(date2);
 			beta.setDescription("The best night in 256 so far.");
-			beta.setVenue(venueB);
+			beta.setVenue(barFootage);
 			
 			eventService.save(beta);
 			
