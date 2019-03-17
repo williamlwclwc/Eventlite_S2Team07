@@ -139,19 +139,19 @@ public class VenuesControllerTest {
 	}
 	
 	@Test
-	public void updateVenue() throws Exception {
+	public void updateValidVenue() throws Exception {
 		ArgumentCaptor<Venue> arg = ArgumentCaptor.forClass(Venue.class);
 		
-		mvc.perform(MockMvcRequestBuilders.post("/venues/update/1").contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+		mvc.perform(MockMvcRequestBuilders.post("/venues/update").contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 				.param("id", "1")
 				.param("name", name)
 				.param("roadName", roadName)
 				.param("postCode", postCode)
 				.param("capacity", capacity)
 				.accept(MediaType.TEXT_HTML).with(csrf()))
-				.andExpect(status().isFound()).andExpect(content().string(""))
-				.andExpect(view().name("redirect:/venues")).andExpect(model().hasNoErrors())
-				.andExpect(handler().methodName("saveEditedVenue"));
+			.andExpect(status().isFound()).andExpect(content().string(""))
+			.andExpect(view().name("redirect:/venues")).andExpect(model().hasNoErrors())
+			.andExpect(handler().methodName("saveEditedVenue"));
 		
 		verify(venueService).save(arg.capture());
 		assertThat(name, equalTo(arg.getValue().getName()));
@@ -160,12 +160,25 @@ public class VenuesControllerTest {
 	
 	@Test
 	public void UpdateWithoutName() throws Exception{
-		InvalidVenueUpdate("", roadName, postCode, "", "name");
+		InvalidVenueUpdate("", roadName, postCode, capacity, "name");
+	}
+	
+	@Test
+	public void UpdateWithTooLongName() throws Exception{//tested with 260 chars
+		InvalidVenueUpdate("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz", 
+				roadName, postCode, capacity, "name");
 	}
 	
 	@Test
 	public void UpdateWithoutRoadName() throws Exception{
-		InvalidVenueUpdate(name, "", postCode, "", "roadName");
+		InvalidVenueUpdate(name, "", postCode, capacity, "roadName");
+	}
+	
+	@Test
+	public void UpdateWithTooLongRoadName() throws Exception{
+		InvalidVenueUpdate(name, 
+				"abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz", 
+				postCode, capacity, "roadName");
 	}
 	
 	@Test
@@ -178,6 +191,11 @@ public class VenuesControllerTest {
 		InvalidVenueUpdate(name, roadName, postCode, "", "capacity");
 	}
 	
+	@Test
+	public void UpdateWithNegativeCapacity() throws Exception{
+		InvalidVenueUpdate(name, roadName, postCode, "-1", "capacity");
+	}
+	
 	private void InvalidVenueUpdate(String name1, String roadName1, String postCode1, String capacity1, String errors1) throws Exception{
 		mvc.perform(MockMvcRequestBuilders.post("/venues/update/1")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -187,7 +205,7 @@ public class VenuesControllerTest {
 				.param("postCode", postCode1)
 				.param("capacity", capacity1)
 				.accept(MediaType.TEXT_HTML).with(csrf()))
-			.andExpect(status().isFound()).andExpect(view().name("venues/update/1"))
+			.andExpect(status().isFound()).andExpect(view().name("venues/update"))
 			.andExpect(model().attributeHasFieldErrors("venue", errors1))
 			.andExpect(handler().methodName("saveEditedVenue")).andExpect(flash().attributeCount(0));
 		verify(venueService, never()).save(venue);
