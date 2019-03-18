@@ -44,6 +44,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			Venue venueA = new Venue();
 			venueA.setName("Venue A");
 			venueA.setAddress("Stopford Building");
+			venueA.setRoadName("Oxford Road");
+			venueA.setPostCode("M13 9PG");
 			venueA.setCapacity(100);
 			venueA.setLongitude(50.0);
 			venueA.setLatitude(30.0);
@@ -52,14 +54,16 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			
 			Venue venueB = new Venue();
 			venueB.setName("Venue B");
-			venueB.setAddress("The Principal");
+			venueB.setRoadName("Oxford Street");
+			venueB.setPostCode("M60 7HA");
 			venueB.setCapacity(100);
 			
 			venueService.save(venueB);
 			
 			Venue kilburn = new Venue();
 			kilburn.setName("Kilburn Building");
-			kilburn.setAddress("Kilburn Building");
+			kilburn.setRoadName("Oxford Road");
+			kilburn.setPostCode("M13 9PL");
 			kilburn.setCapacity(1000);
 			kilburn.setLongitude(53.468283);
 			kilburn.setLatitude(-2.239649);
@@ -68,7 +72,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			
 			Venue barFootage = new Venue();
 			barFootage.setName("Bar Footage");
-			barFootage.setAddress("Footage Bar");
+			barFootage.setRoadName("Grosvenor Street");
+			barFootage.setPostCode("M1 7DZ");
 			barFootage.setCapacity(50);
 			barFootage.setLongitude(53.469205);
 			barFootage.setLatitude(-2.237385);

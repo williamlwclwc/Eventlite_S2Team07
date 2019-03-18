@@ -18,10 +18,11 @@ public class GeocodeImpl {
 	{
 		if(venue.getAddress() == null)
 			System.out.println("empty");
+		System.out.println(venue.getAddress() + " *** " + venue.getPostCode());
 		MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
 				.accessToken("pk.eyJ1IjoiZXZlbnRsaXRlaDA3IiwiYSI6ImNqdGN2anNwMDA3MGM0NG84bm9wNzRyNDAifQ.5iHqgi5_wYd_gb8eLLgHfQ")
-				.country("United Kingdom")
-				.query(venue.getAddress())
+				.country("GB")
+				.query(venue.getPostCode())
 				.build();
 		
 		mapboxGeocoding.enqueueCall(new Callback<GeocodingResponse>() {
