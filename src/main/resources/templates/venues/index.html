@@ -39,9 +39,6 @@
           <td></td>
           <td sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
           	<a th:href="@{'/venues/update/' + ${v.id}}"><button type="button" class="btn btn-success">Update venue</button></a>
-          	<form th:action="@{'/venues/' + ${v.id}}" th:method="delete" style="display:inline;">
-				<button type="submit" class="btn btn-danger"><i aria-hidden="true"></i> Delete</button>
-			</form>
           </td>
         </tr>
       </tbody>
