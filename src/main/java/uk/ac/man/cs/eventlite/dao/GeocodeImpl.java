@@ -16,9 +16,6 @@ public class GeocodeImpl {
 	
 	public static void setVenueCoordinates(Venue venue)
 	{
-		if(venue.getAddress() == null)
-			System.out.println("empty");
-		System.out.println(venue.getAddress() + " *** " + venue.getPostCode());
 		MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
 				.accessToken("pk.eyJ1IjoiZXZlbnRsaXRlaDA3IiwiYSI6ImNqdGN2anNwMDA3MGM0NG84bm9wNzRyNDAifQ.5iHqgi5_wYd_gb8eLLgHfQ")
 				.country("GB")
@@ -40,7 +37,9 @@ public class GeocodeImpl {
 		 
 				  // Log the first results Point.
 				  Point firstResultPoint = results.get(0).center();
-				  System.out.println("The result was " + firstResultPoint.latitude() + " and " + firstResultPoint.longitude());
+				  
+				  venue.setLatitude(firstResultPoint.latitude());
+				  venue.setLongitude(firstResultPoint.longitude());
 		 
 				} else {
 		 
