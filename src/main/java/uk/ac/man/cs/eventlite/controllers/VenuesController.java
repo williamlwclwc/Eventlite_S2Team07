@@ -134,7 +134,6 @@ public class VenuesController {
 				return "redirect:/venues";
 			}
 			catch (Exception e) {
-				System.out.println();
 				return "redirect:/venues";
 			}
 		
