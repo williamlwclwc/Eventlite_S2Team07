@@ -10,6 +10,8 @@
     <h1 th:text="${venue.name}">My Venue</h1>
     <h3 th:text="'Capacity: ' + ${venue.capacity}">Venue capacity</h3>
     <h3 th:text="'Address: ' + ${venue.address}">Venue address</h3>
+    <h3 th:text="'Latitude: ' + ${venue.latitude}">Venue latitude</h3>
+    <h3 th:text="'Longitude: ' + ${venue.longitude}">Venue longitude</h3>
     
     <div>
     	<a href="/venues"><button type="button" class="btn btn-success" style="float:left;">Back</button></a>
@@ -20,6 +22,7 @@
 			</div>
 		</div> 
   </div>
+
 
 </body>
 </html>
