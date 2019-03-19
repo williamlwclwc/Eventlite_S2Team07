@@ -47,8 +47,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			venueA.setRoadName("Oxford Road");
 			venueA.setPostCode("M13 9PG");
 			venueA.setCapacity(100);
-			venueA.setLongitude(50.0);
-			venueA.setLatitude(30.0);
+			venueA.setLongitude(-2.23162522402877);
+			venueA.setLatitude(53.4648554410412);
 			
 			venueService.save(venueA);
 			
@@ -57,6 +57,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			venueB.setRoadName("Oxford Street");
 			venueB.setPostCode("M60 7HA");
 			venueB.setCapacity(100);
+			venueB.setLongitude(-2.24040047207334);
+			venueB.setLatitude(53.4743928384907);
 			
 			venueService.save(venueB);
 			
