@@ -17,7 +17,7 @@ public class GeocodeImpl {
 	public static void setVenueCoordinates(Venue venue)
 	{
 		MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
-				.accessToken("pk.eyJ1IjoiZXZlbnRsaXRlaDA3IiwiYSI6ImNqdGN2anNwMDA3MGM0NG84bm9wNzRyNDAifQ.5iHqgi5_wYd_gb8eLLgHfQ")
+				.accessToken("pk.eyJ1IjoiZXZlbnRsaXRlaDA3IiwiYSI6ImNqdGN1aXU0dDB5MGQzeXBjMDh0bXBmZWEifQ.cAtpPyEFrf04RlRjdtfc1w")
 				.country("GB")
 				.query(venue.getPostCode())
 				.build();
@@ -40,7 +40,9 @@ public class GeocodeImpl {
 				  
 				  venue.setLatitude(firstResultPoint.latitude());
 				  venue.setLongitude(firstResultPoint.longitude());
-		 
+				 
+				  // venueService.save(venue);
+				  
 				} else {
 		 
 				  // No result for your request were found.

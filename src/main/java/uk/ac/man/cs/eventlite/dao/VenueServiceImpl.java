@@ -38,7 +38,6 @@ public class VenueServiceImpl implements VenueService {
 
 	@Override
 	public Venue save(Venue v){
-		GeocodeImpl.setVenueCoordinates(v);
 		return venueRepository.save(v);
 	}
 
