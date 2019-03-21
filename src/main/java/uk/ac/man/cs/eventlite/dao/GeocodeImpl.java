@@ -19,18 +19,13 @@ public class GeocodeImpl {
 		MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
 				.accessToken("pk.eyJ1IjoiZXZlbnRsaXRlaDA3IiwiYSI6ImNqdGN1aXU0dDB5MGQzeXBjMDh0bXBmZWEifQ.cAtpPyEFrf04RlRjdtfc1w")
 				.country("GB")
-				.query(venue.getPostCode())
+				.query(venue.getAddress())
 				.build();
 		
 		mapboxGeocoding.enqueueCall(new Callback<GeocodingResponse>() {
 			@Override
 			public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
-				try {
-					Thread.sleep(1000L);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
 				List<CarmenFeature> results = response.body().features();
 		 
 				if (results.size() > 0) {

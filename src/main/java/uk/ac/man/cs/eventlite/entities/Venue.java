@@ -9,6 +9,8 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Transient;
 
+import uk.ac.man.cs.eventlite.dao.GeocodeImpl;
+
 @Entity
 @Table(name = "venues")
 public class Venue {
@@ -32,8 +34,17 @@ public class Venue {
 	private String address;
 	
 	@PostLoad
-	public void postLoad(){
+	public void postUpdate(){
 		this.address = roadName + ", " + postCode ;
+		
+		final Venue thisVenue = this;
+		GeocodeImpl.setVenueCoordinates(thisVenue);
+		try {
+			Thread.sleep(1000L);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@NotNull
