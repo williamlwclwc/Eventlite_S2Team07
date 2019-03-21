@@ -43,34 +43,33 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			
 			Venue venueA = new Venue();
 			venueA.setName("Venue A");
-			venueA.setAddress("Stopford Building");
-			venueA.setRoadName("Oxford Road");
-			venueA.setPostCode("M13 9PG");
-			venueA.setCapacity(100);
-			venueA.setLongitude(-2.23162522402877);
-			venueA.setLatitude(53.4648554410412);
+			venueA.setRoadName("23 Manchester Road");
+			venueA.setPostCode("E14 3BD");
+			venueA.setCapacity(50);
+			venueA.setLongitude(-0.012425);
+			venueA.setLatitude(51.487696);
 			
 			venueService.save(venueA);
 			
 			Venue venueB = new Venue();
 			venueB.setName("Venue B");
-			venueB.setRoadName("Oxford Street");
-			venueB.setPostCode("M60 7HA");
-			venueB.setCapacity(100);
-			venueB.setLongitude(-2.24040047207334);
-			venueB.setLatitude(53.4743928384907);
+			venueB.setRoadName("Highland Road");
+			venueB.setPostCode("S43 2EZ");
+			venueB.setCapacity(1000);
+			venueB.setLongitude(-1.399808);
+			venueB.setLatitude(53.279673);
 			
 			venueService.save(venueB);
 			
-			Venue kilburn = new Venue();
-			kilburn.setName("Kilburn Building");
-			kilburn.setRoadName("Oxford Road");
-			kilburn.setPostCode("M13 9PL");
-			kilburn.setCapacity(1000);
-			kilburn.setLongitude(53.468283);
-			kilburn.setLatitude(-2.239649);
+			Venue venueC = new Venue();
+			venueC.setName("Venue C");
+			venueC.setRoadName("19 Acacia Avenue");
+			venueC.setPostCode("WA15 8QY");
+			venueC.setCapacity(10);
+			venueC.setLongitude(53.381270);
+			venueC.setLatitude(-2.338228);
 			
-			venueService.save(kilburn);
+			venueService.save(venueC);
 			
 			Venue barFootage = new Venue();
 			barFootage.setName("Bar Footage");
@@ -88,7 +87,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			alpha.setDate(date1);
 			alpha.setTime(date1);
 			alpha.setDescription("An event for the masses.");
-			alpha.setVenue(kilburn);
+			alpha.setVenue(venueC);
 			
 			eventService.save(alpha);	
 			
