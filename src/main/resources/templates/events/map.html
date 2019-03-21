@@ -1,14 +1,15 @@
 <div th:fragment="map(events)" id="map">
   <script th:inline="javascript">
-  function addMarker(map, longitude, latitude)
+  function addMarker(map, longitude, latitude, name, date, time, description)
   {
+  	popupContent = `<h4><strong>${name}</strong></h4><p>${date}<br/>${time}</p><p>${description}</p>`;
     L.marker([longitude, latitude], {
       icon: L.mapbox.marker.icon({
           'marker-size': 'large',
-          'marker-symbol': 'bus',
+          'marker-symbol': 'theatre',
           'marker-color': '#fa0'
       })
-    }).addTo(map);
+    }).bindPopup(popupContent).addTo(map);
   }
 
   var centre = [0.0, 0.0];
@@ -32,7 +33,11 @@
         addMarker(
         		  map, 
         		  [[${event.venue.getLongitude()}]], 
-        		  [[${event.venue.getLatitude()}]]
+        		  [[${event.venue.getLatitude()}]], 
+        		  [[${event.getName()}]], 
+        		  [[${event.getDate()}]], 
+        		  [[${event.getTime()}]], 
+        		  [[${event.getDescription()}]]
         );
     /*[/]*/
 
