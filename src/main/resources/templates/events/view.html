@@ -13,6 +13,8 @@
     <h3 th:text="'Time: ' + ${event.time}">Event time</h3>
     <h3> Description: </h3>
     <p th:text="${event.description}">Event description</p>
+    <h3> Organised by: </h3>
+    <strong th:text="${event.organiser}">Event description</strong>
     
     <h3>Venue:</h3>
     <table class="table table-striped table-hover">

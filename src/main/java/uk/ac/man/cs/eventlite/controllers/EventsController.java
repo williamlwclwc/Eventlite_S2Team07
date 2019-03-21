@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,14 +56,14 @@ public class EventsController {
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String createEvent(@RequestBody @Valid @ModelAttribute Event event,
-			BindingResult errors, Model model, RedirectAttributes redirectAttrs) {
+			BindingResult errors, Model model, RedirectAttributes redirectAttrs, Authentication auth) {
 
 		if (errors.hasErrors()) {
 			model.addAttribute("event", event);
 			model.addAttribute("venues", venueService.findAll());
 			return "events/new";
 		}
-
+		event.setOrganiser(auth.getName());
 		eventService.save(event);
 		redirectAttrs.addFlashAttribute("ok_message", "New event added.");
 
