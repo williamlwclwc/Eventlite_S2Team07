@@ -187,10 +187,22 @@ public class VenuesController {
 	public String viewVenue(@PathVariable("id") long id, Model model) {
 		Venue venue = venueService.findById(id);
 		model.addAttribute("venue", venue);
+		
+		Iterable<Event> allEvents = new ArrayList<Event>();
+		ArrayList<Event> upcomingEvents = new ArrayList<Event>();
+		allEvents = eventService.findAll();
+		Iterator<Event> iterator = allEvents.iterator();
+		while(iterator.hasNext()) 
+		{
+			Event event = iterator.next();
+			if(event.getVenue().getId() == venue.getId()) 
+				upcomingEvents.add(event);
+		}
+		model.addAttribute("events", upcomingEvents);
 		return "venues/view";
     }
 	
-	public void setVenueCoordinates(Venue venue)
+	public void setVenueCoordinates(final Venue venue)
 	{
 		MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
 				.accessToken("pk.eyJ1IjoiZXZlbnRsaXRlaDA3IiwiYSI6ImNqdGN1aXU0dDB5MGQzeXBjMDh0bXBmZWEifQ.cAtpPyEFrf04RlRjdtfc1w")
