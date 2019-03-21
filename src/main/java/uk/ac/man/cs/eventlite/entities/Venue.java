@@ -1,5 +1,7 @@
 package uk.ac.man.cs.eventlite.entities;
 
+import java.util.Set;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -46,6 +48,13 @@ public class Venue {
 	@Value("${some.key: 0.0}")
 	private double latitude;
 	
+	@OneToMany(mappedBy = "venue", cascade = CascadeType.ALL)
+    private Set<Event> events;
+	
+	public Set<Event> getEvents() {
+		return events;
+	}
+
 	public Venue() {
 	}
 
