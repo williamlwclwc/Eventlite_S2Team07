@@ -59,7 +59,7 @@ public class VenuesControllerTest {
 	
 	
 	private final static String BAD_ROLE = "USER";
-	private final static String name = "";
+	private final static String name = "test";
 	private final static String roadName = "100 Oxford Road";
 	private final static String postCode = "M33 13P";
 	private final static String capacity = "100";
@@ -124,7 +124,7 @@ public class VenuesControllerTest {
 
 	@Test
 	public void updateVenueNoCsrf() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/venues/update/1").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+		mvc.perform(MockMvcRequestBuilders.post("/venues/update").contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("id", "1")
 				.param("name", name)
 				.param("roadName", roadName)
@@ -142,7 +142,7 @@ public class VenuesControllerTest {
 	public void updateValidVenue() throws Exception {
 		ArgumentCaptor<Venue> arg = ArgumentCaptor.forClass(Venue.class);
 		
-		mvc.perform(MockMvcRequestBuilders.post("/venues/update").contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+		mvc.perform(MockMvcRequestBuilders.post("/venues/update").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 				.param("id", "1")
 				.param("name", name)
 				.param("roadName", roadName)
@@ -151,7 +151,7 @@ public class VenuesControllerTest {
 				.accept(MediaType.TEXT_HTML).with(csrf()))
 			.andExpect(status().isFound()).andExpect(content().string(""))
 			.andExpect(view().name("redirect:/venues")).andExpect(model().hasNoErrors())
-			.andExpect(handler().methodName("saveEditedVenue"));
+			.andExpect(handler().methodName("SaveEditedVenue"));
 		
 		verify(venueService).save(arg.capture());
 		assertThat(name, equalTo(arg.getValue().getName()));
@@ -197,17 +197,16 @@ public class VenuesControllerTest {
 	}
 	
 	private void InvalidVenueUpdate(String name1, String roadName1, String postCode1, String capacity1, String errors1) throws Exception{
-		mvc.perform(MockMvcRequestBuilders.post("/venues/update/1")
-				.contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+		mvc.perform(MockMvcRequestBuilders.post("/venues/update").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 				.param("id", "1")
 				.param("name", name1)
 				.param("roadName", roadName1)
 				.param("postCode", postCode1)
 				.param("capacity", capacity1)
 				.accept(MediaType.TEXT_HTML).with(csrf()))
-			.andExpect(status().isFound()).andExpect(view().name("venues/update"))
+			.andExpect(status().isOk()).andExpect(view().name("venues/update"))
 			.andExpect(model().attributeHasFieldErrors("venue", errors1))
-			.andExpect(handler().methodName("saveEditedVenue")).andExpect(flash().attributeCount(0));
+			.andExpect(handler().methodName("SaveEditedVenue")).andExpect(flash().attributeCount(0));
 		verify(venueService, never()).save(venue);
 	}
 
