@@ -119,23 +119,126 @@ public class VenuesControllerTest {
 
 		verify(venue);
 	}
-	
-	
+//	====TESTS FOR NEW VENUE===========
+//	@Test
+//	public void createVenueNoCsrf() throws Exception {
+//		mvc.perform(MockMvcRequestBuilders.post("/venues/new").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+//				.param("name", name)
+//				.param("roadName", roadName)
+//				.param("postCode", postCode)
+//				.param("capacity", capacity)
+//				.accept(MediaType.TEXT_HTML))
+//				.andExpect(status().isForbidden());
+//		
+//		verify(venueService, never()).save(venue);
+//	}
+//	
+//	@Test
+//	public void CreateVenueWithBadRole() throws Exception {
+//		mvc.perform(MockMvcRequestBuilders.post("/venues/update").with(user("Rob").roles(BAD_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+//				.param("name", name)
+//				.param("roadName", roadName)
+//				.param("postCode", postCode)
+//				.param("capacity", capacity)
+//				.accept(MediaType.TEXT_HTML))
+//				.andExpect(status().isForbidden());
+//		
+//		verify(venueService, never()).save(venue);
+//	}
+//	
+//	@Test
+//	public void createValidVenue() throws Exception {
+//		ArgumentCaptor<Venue> arg = ArgumentCaptor.forClass(Venue.class);
+//		
+//		mvc.perform(MockMvcRequestBuilders.post("/venues/new").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+//				.param("name", name)
+//				.param("roadName", roadName)
+//				.param("postCode", postCode)
+//				.param("capacity", capacity)
+//				.accept(MediaType.TEXT_HTML).with(csrf()))
+//			.andExpect(status().isFound()).andExpect(content().string(""))
+//			.andExpect(view().name("redirect:/venues")).andExpect(model().hasNoErrors())
+//			.andExpect(handler().methodName("SaveVenue"));
+//		
+//		verify(venueService).save(arg.capture());
+//		assertThat(name, equalTo(arg.getValue().getName()));
+//	
+//	}
+//	
+//
+//	@Test
+//	public void CreateWithTooLongName() throws Exception{//tested with 260 chars
+//		InvalidVenueUpdate("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz", 
+//				roadName, postCode, capacity, "name");
+//	}
+//	
+//	@Test
+//	public void CreateWithoutRoadName() throws Exception{
+//		InvalidVenueUpdate(name, "", postCode, capacity, "roadName");
+//	}
+//	
+//	@Test
+//	public void CreateWithTooLongRoadName() throws Exception{
+//		InvalidVenueUpdate(name, 
+//				"abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz", 
+//				postCode, capacity, "roadName");
+//	}
+//	
+//	@Test
+//	public void CreateWithoutPostCode() throws Exception{
+//		InvalidVenueUpdate(name, roadName, "", capacity, "postCode");
+//	}
+//	
+//	@Test
+//	public void CreateWithoutCapacity() throws Exception{
+//		InvalidVenueUpdate(name, roadName, postCode, "", "capacity");
+//	}
+//	
+//	@Test
+//	public void CreateWithNegativeCapacity() throws Exception{
+//		InvalidVenueUpdate(name, roadName, postCode, "-1", "capacity");
+//	}
+//	
+//	private void CreateVenueUpdate(String name1, String roadName1, String postCode1, String capacity1, String errors1) throws Exception{
+//		mvc.perform(MockMvcRequestBuilders.post("/venues/new").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+//				.param("name", name1)
+//				.param("roadName", roadName1)
+//				.param("postCode", postCode1)
+//				.param("capacity", capacity1)
+//				.accept(MediaType.TEXT_HTML).with(csrf()))
+//			.andExpect(status().isOk()).andExpect(view().name("venues/new"))
+//			.andExpect(model().attributeHasFieldErrors("venue", errors1))
+//			.andExpect(handler().methodName("SaveVenue")).andExpect(flash().attributeCount(0));
+//		verify(venueService, never()).save(venue);
+//	}
+//	===========================
 
 	@Test
 	public void updateVenueNoCsrf() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/venues/update").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+		mvc.perform(MockMvcRequestBuilders.post("/venues/update").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 				.param("id", "1")
 				.param("name", name)
 				.param("roadName", roadName)
 				.param("postCode", postCode)
-				.param("capacity", "100")
+				.param("capacity", capacity)
 				.accept(MediaType.TEXT_HTML))
 				.andExpect(status().isForbidden());
 		
 		verify(venueService, never()).save(venue);
-		
+	}
 	
+	@Test
+	public void updateVenueWithBadRole() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.post("/venues/update").with(user("Rob").roles(BAD_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.param("id", "1")
+				.param("name", name)
+				.param("roadName", roadName)
+				.param("postCode", postCode)
+				.param("capacity", capacity)
+				.accept(MediaType.TEXT_HTML))
+				.andExpect(status().isForbidden());
+		
+		verify(venueService, never()).save(venue);
 	}
 	
 	@Test
