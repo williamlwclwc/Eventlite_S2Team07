@@ -63,6 +63,7 @@ public class VenuesControllerTest {
 	private final static String roadName = "100 Oxford Road";
 	private final static String postCode = "M33 13P";
 	private final static String capacity = "100";
+	private final static int capacityAsInt = 100;
 
 	@Autowired
 	private Filter springSecurityFilterChain;
@@ -120,6 +121,7 @@ public class VenuesControllerTest {
 		verify(venue);
 	}
 //	====TESTS FOR NEW VENUE===========
+/* New Venue controller method was not implemented at the time of branching out*/
 //	@Test
 //	public void createVenueNoCsrf() throws Exception {
 //		mvc.perform(MockMvcRequestBuilders.post("/venues/new").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -258,6 +260,9 @@ public class VenuesControllerTest {
 		
 		verify(venueService).save(arg.capture());
 		assertThat(name, equalTo(arg.getValue().getName()));
+		assertThat(roadName, equalTo(arg.getValue().getRoadName()));
+		assertThat(postCode, equalTo(arg.getValue().getPostCode()));
+		assertThat(capacityAsInt, equalTo(arg.getValue().getCapacity()));
 	
 	}
 	
