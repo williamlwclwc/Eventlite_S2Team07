@@ -1,0 +1,46 @@
+<div th:fragment="map(events)" id="map">
+  <script th:inline="javascript">
+  function addMarker(map, longitude, latitude, name, date, time, description)
+  {
+  	popupContent = `<h4><strong>${name}</strong></h4><p>${date}<br/>${time}</p><p>${description}</p>`;
+    L.marker([longitude, latitude], {
+      icon: L.mapbox.marker.icon({
+          'marker-size': 'large',
+          'marker-symbol': 'theatre',
+          'marker-color': '#fa0'
+      })
+    }).bindPopup(popupContent).addTo(map);
+  }
+
+  var centre = [0.0, 0.0];
+  var count = 0;
+  /*<![CDATA[*/
+
+    /*[# th:each="event : ${events}"]*/
+        centre[0] = centre[0] + [[${event.venue.getLongitude()}]]
+        centre[1] = centre[1] + [[${event.venue.getLatitude()}]]
+        count = count + 1;
+    /*[/]*/
+    if(count > 0) {
+      centre[0] = centre[0] / count;
+      centre[1] = centre[1] / count;
+    }
+    L.mapbox.accessToken = 'pk.eyJ1IjoiZXZlbnRsaXRlaDA3IiwiYSI6ImNqdGN1aXU0dDB5MGQzeXBjMDh0bXBmZWEifQ.cAtpPyEFrf04RlRjdtfc1w';
+    var map = L.mapbox.map('map')
+    .setView(centre, 15)
+    .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
+    /*[# th:each="event : ${events}"]*/
+        addMarker(
+        		  map, 
+        		  [[${event.venue.getLongitude()}]], 
+        		  [[${event.venue.getLatitude()}]], 
+        		  [[${event.getName()}]], 
+        		  [[${event.getDate()}]], 
+        		  [[${event.getTime()}]], 
+        		  [[${event.getDescription()}]]
+        );
+    /*[/]*/
+
+  /*]]>*/
+  </script>
+</div>

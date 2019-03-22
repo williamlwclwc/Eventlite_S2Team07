@@ -68,9 +68,10 @@
     
     <div sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
   	  <a href="/events/new"><button type="button" class="btn btn-success">New event</button></a>
-		</div>
-		<br>
-		<a href="/"><button type="button" class="btn btn-success">Back</button></a>
+	</div>
+	<br>
+	<a href="/"><button type="button" class="btn btn-success">Back</button></a>
+	<div th:replace="events/map :: map(events=${future_events})"></div>
   </div>
 
 </body>
