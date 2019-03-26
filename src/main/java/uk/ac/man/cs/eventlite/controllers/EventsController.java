@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
+import javax.inject.Inject;
+
+import org.springframework.social.twitter.api.CursoredList;
+import org.springframework.social.twitter.api.Twitter;
+import org.springframework.social.twitter.api.TwitterProfile;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -33,6 +39,25 @@ public class EventsController {
 
 	@Autowired
 	private VenueService venueService;
+	
+    private Twitter twitter;
+
+    @Inject
+    public EventsController(Twitter twitter) {
+        this.twitter = twitter;
+    }
+    
+    @RequestMapping(method=RequestMethod.GET)
+    public String eventsTwitter(Model model) {
+        if (!twitter.isAuthorized()) {
+            return "redirect:/connect/twitter";
+        }
+
+        model.addAttribute(twitter.userOperations().getUserProfile());
+        CursoredList<TwitterProfile> friends = twitter.friendOperations().getFriends();
+        model.addAttribute("friends", friends);
+        return "events";
+    }
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllEvents(Model model) {
