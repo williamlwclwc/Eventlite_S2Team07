@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/default}">
+  <head>
+    <title>Hello Twitter</title>
+  </head>
+  <body>
+    <h3>Connect to Twitter</h3>
+
+    <form action="/connect/twitter" method="POST">
+      <div class="formInfo">
+        <p>You aren't connected to Twitter yet. Click the button to connect Spring Social Showcase with your Twitter account.</p>
+      </div>
+      <p><button type="submit">Connect to Twitter</button></p>
+    </form>
+  </body>
+</html>
+
+
