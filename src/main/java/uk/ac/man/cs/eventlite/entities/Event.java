@@ -31,7 +31,6 @@ public class Event {
 	private long id;
 
 	@NotNull(message = "Date may not be blank")
-	@Future
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -46,6 +45,8 @@ public class Event {
     @NotBlank(message = "The name may not be blank.")
     @Size(max=255, message = "Must be less than 256 characters.")
 	private String name;
+    
+	private String organiser;
 	
 	@Size(min=0, max=499)
 	private String description;
@@ -103,5 +104,13 @@ public class Event {
 
 	public void setVenue(Venue venue) {
 		this.venue = venue;
+	}
+
+	public String getOrganiser() {
+		return organiser;
+	}
+
+	public void setOrganiser(String organiser) {
+		this.organiser = organiser;
 	}
 }

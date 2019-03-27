@@ -88,6 +88,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			alpha.setTime(date1);
 			alpha.setDescription("An event for the masses.");
 			alpha.setVenue(venueC);
+			alpha.setOrganiser("Markel");
 			
 			eventService.save(alpha);	
 			
@@ -98,6 +99,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			beta.setTime(date2);
 			beta.setDescription("The best night in 256 so far.");
 			beta.setVenue(barFootage);
+			beta.setOrganiser("Rob");
 			
 			eventService.save(beta);
 			
@@ -108,6 +110,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			apple.setTime(date3);
 			apple.setDescription("No apple allowed.");
 			apple.setVenue(venueA);
+			apple.setOrganiser("Markel");
 			
 			eventService.save(apple);
 			
@@ -118,6 +121,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			former.setTime(date4);
 			former.setDescription("The best night in 256 so far.");
 			former.setVenue(venueB);
+			former.setOrganiser("Caroline");
 			
 			eventService.save(former);
 			
@@ -128,6 +132,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			previous.setTime(date5);
 			previous.setDescription("The best night in 256 so far.");
 			previous.setVenue(venueA);
+			previous.setOrganiser("Rob");
 			
 			eventService.save(previous);
 			
@@ -138,6 +143,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			past.setTime(date6);
 			past.setDescription("The best night in 256 so far.");
 			past.setVenue(venueA);
+			past.setOrganiser("Rob");
 			
 			eventService.save(past);
 		} catch (ParseException e) {

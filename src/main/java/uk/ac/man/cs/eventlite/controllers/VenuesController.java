@@ -188,16 +188,12 @@ public class VenuesController {
 		Venue venue = venueService.findById(id);
 		model.addAttribute("venue", venue);
 		
-		Iterable<Event> allEvents = new ArrayList<Event>();
-		ArrayList<Event> upcomingEvents = new ArrayList<Event>();
-		allEvents = eventService.findAll();
-		Iterator<Event> iterator = allEvents.iterator();
-		while(iterator.hasNext()) 
-		{
-			Event event = iterator.next();
-			if(event.getVenue().getId() == venue.getId()) 
-				upcomingEvents.add(event);
+		List<Event> upcomingEvents = new ArrayList<Event>();
+		for (Event e : venue.getEvents()) {
+			if (e.getDate().compareTo( new Date(System.currentTimeMillis())) > 0)
+				upcomingEvents.add(e);
 		}
+			
 		model.addAttribute("events", upcomingEvents);
 		return "venues/view";
     }
