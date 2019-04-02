@@ -166,12 +166,14 @@ public class VenuesController {
 		Iterable<Venue> allVenues = new ArrayList<Venue>();
 		ArrayList<Venue> resultVenues = new ArrayList<Venue>();
 		allVenues = venueService.findAll();
-		Iterator<Venue> itr = allVenues.iterator();
-		while(itr.hasNext()) {
-			Venue ele = itr.next();
-			if(ele.getName().toLowerCase().indexOf(name) != -1) {
-				resultVenues.add(ele);
-				findFlag = 1;
+		if(allVenues != null) {
+			Iterator<Venue> itr = allVenues.iterator();
+			while(itr.hasNext()) {
+				Venue ele = itr.next();
+				if(ele.getName().toLowerCase().indexOf(name) != -1) {
+					resultVenues.add(ele);
+					findFlag = 1;
+				}
 			}
 		}
 		// if not found any results

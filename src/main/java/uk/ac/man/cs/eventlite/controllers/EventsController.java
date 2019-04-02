@@ -131,20 +131,22 @@ public class EventsController {
 		ArrayList<Event> previousEvents = new ArrayList<Event>();
 		ArrayList<Event> upcomingEvents = new ArrayList<Event>();
 		allEvents = eventService.findAll();
-		Iterator<Event> itr = allEvents.iterator();
-		while(itr.hasNext()) {
-			Event ele = itr.next();
-			if(ele.getName().toLowerCase().indexOf(name) != -1) {
-				// get event time as string
-				eventTime = date.format(ele.getDate()) + " " + time.format(ele.getTime());
-				if(eventTime.compareTo(currentTime) < 0) {
-					// previous
-					previousEvents.add(ele);
-				} else {
-					// upcoming
-					upcomingEvents.add(ele);
+		if(allEvents != null) {
+			Iterator<Event> itr = allEvents.iterator();
+			while(itr.hasNext()) {
+				Event ele = itr.next();
+				if(ele.getName().toLowerCase().indexOf(name) != -1) {
+					// get event time as string
+					eventTime = date.format(ele.getDate()) + " " + time.format(ele.getTime());
+					if(eventTime.compareTo(currentTime) < 0) {
+						// previous
+						previousEvents.add(ele);
+					} else {
+						// upcoming
+						upcomingEvents.add(ele);
+					}
+					findFlag = 1;
 				}
-				findFlag = 1;
 			}
 		}
 		// if not found any results
