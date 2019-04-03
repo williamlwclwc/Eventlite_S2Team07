@@ -40,7 +40,7 @@ public class EventsController {
 	@Autowired
 	private VenueService venueService;
 	
-    private Twitter twitter;
+	/*private Twitter twitter;
 
     @Inject
     public EventsController(Twitter twitter) {
@@ -57,7 +57,7 @@ public class EventsController {
         CursoredList<TwitterProfile> friends = twitter.friendOperations().getFriends();
         model.addAttribute("friends", friends);
         return "events";
-    }
+    }*/
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllEvents(Model model) {
