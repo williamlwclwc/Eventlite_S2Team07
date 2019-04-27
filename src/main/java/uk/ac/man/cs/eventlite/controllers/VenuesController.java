@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import uk.ac.man.cs.eventlite.dao.EventService;
+import uk.ac.man.cs.eventlite.dao.GeocodeImpl;
 import uk.ac.man.cs.eventlite.dao.VenueService;
 import uk.ac.man.cs.eventlite.entities.Event;
 import uk.ac.man.cs.eventlite.entities.Venue;
@@ -200,47 +201,8 @@ public class VenuesController {
 	
 	public void setVenueCoordinates(final Venue venue)
 	{
-		MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
-				.accessToken("pk.eyJ1IjoiZXZlbnRsaXRlaDA3IiwiYSI6ImNqdGN1aXU0dDB5MGQzeXBjMDh0bXBmZWEifQ.cAtpPyEFrf04RlRjdtfc1w")
-				.country("GB")
-				.query(venue.getPostCode())
-				.build();
-		
-		mapboxGeocoding.enqueueCall(new Callback<GeocodingResponse>() {
-			@Override
-			public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
-				try {
-					Thread.sleep(1000L);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				List<CarmenFeature> results = response.body().features();
-		 
-				if (results.size() > 0) {
-		 
-				  // Log the first results Point.
-				  Point firstResultPoint = results.get(0).center();
-				  
-				  
-				  venue.setLatitude(firstResultPoint.latitude());
-				  venue.setLongitude(firstResultPoint.longitude());
-				  
-				  venueService.save(venue);  
-		 
-				} else {
-		 
-				  // No result for your request were found.
-				  System.out.println("No result :(");
-		 
-				}
-			}
-		 
-			@Override
-			public void onFailure(Call<GeocodingResponse> call, Throwable throwable) {
-				throwable.printStackTrace();
-			}
-		});
+		venue.setCoordinates();
+		venueService.save(venue);
 	}
 }
 

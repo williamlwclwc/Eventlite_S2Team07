@@ -14,10 +14,12 @@ import uk.ac.man.cs.eventlite.entities.Venue;
 
 public class GeocodeImpl {
 	
+	public static final String MAPTOKEN = "pk.eyJ1IjoiZXZlbnRsaXRlaDA3IiwiYSI6ImNqdGN1aXU0dDB5MGQzeXBjMDh0bXBmZWEifQ.cAtpPyEFrf04RlRjdtfc1w";
+
 	public static void setVenueCoordinates(final Venue venue)
 	{
 		MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
-				.accessToken("pk.eyJ1IjoiZXZlbnRsaXRlaDA3IiwiYSI6ImNqdGN1aXU0dDB5MGQzeXBjMDh0bXBmZWEifQ.cAtpPyEFrf04RlRjdtfc1w")
+				.accessToken(GeocodeImpl.MAPTOKEN)
 				.country("GB")
 				.query(venue.getPostCode())
 				.build();

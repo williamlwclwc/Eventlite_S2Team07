@@ -17,8 +17,8 @@
   /*<![CDATA[*/
 
     /*[# th:each="event : ${events}"]*/
-        centre[0] = centre[0] + [[${event.venue.getLongitude()}]]
-        centre[1] = centre[1] + [[${event.venue.getLatitude()}]]
+        centre[0] = centre[0] + [[${event.venue.getLatitude()}]]
+        centre[1] = centre[1] + [[${event.venue.getLongitude()}]]
         count = count + 1;
     /*[/]*/
     if(count > 0) {
@@ -27,13 +27,13 @@
     }
     L.mapbox.accessToken = 'pk.eyJ1IjoiZXZlbnRsaXRlaDA3IiwiYSI6ImNqdGN1aXU0dDB5MGQzeXBjMDh0bXBmZWEifQ.cAtpPyEFrf04RlRjdtfc1w';
     var map = L.mapbox.map('map')
-    .setView(centre, 15)
+    .setView(centre, 6)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
     /*[# th:each="event : ${events}"]*/
         addMarker(
         		  map, 
-        		  [[${event.venue.getLongitude()}]], 
         		  [[${event.venue.getLatitude()}]], 
+        		  [[${event.venue.getLongitude()}]], 
         		  [[${event.getName()}]], 
         		  [[${event.getDate()}]], 
         		  [[${event.getTime()}]], 

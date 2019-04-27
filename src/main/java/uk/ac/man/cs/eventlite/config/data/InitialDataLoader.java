@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import uk.ac.man.cs.eventlite.controllers.VenuesController;
 import uk.ac.man.cs.eventlite.dao.EventService;
 import uk.ac.man.cs.eventlite.dao.VenueService;
 import uk.ac.man.cs.eventlite.entities.Event;
@@ -46,8 +47,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			venueA.setRoadName("23 Manchester Road");
 			venueA.setPostCode("E14 3BD");
 			venueA.setCapacity(50);
-			venueA.setLongitude(-0.012425);
-			venueA.setLatitude(51.487696);
+			venueA.setCoordinates();
+//			venueA.setLongitude(-0.012425);
+//			venueA.setLatitude(51.487696);
 			
 			venueService.save(venueA);
 			
@@ -56,8 +58,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			venueB.setRoadName("Highland Road");
 			venueB.setPostCode("S43 2EZ");
 			venueB.setCapacity(1000);
-			venueB.setLongitude(-1.399808);
-			venueB.setLatitude(53.279673);
+			venueB.setCoordinates();
+//			venueB.setLongitude(-1.399808);
+//			venueB.setLatitude(53.279673);
 			
 			venueService.save(venueB);
 			
@@ -66,8 +69,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			venueC.setRoadName("19 Acacia Avenue");
 			venueC.setPostCode("WA15 8QY");
 			venueC.setCapacity(10);
-			venueC.setLongitude(53.381270);
-			venueC.setLatitude(-2.338228);
+			venueC.setCoordinates();
+//			venueC.setLongitude(53.381270);
+//			venueC.setLatitude(-2.338228);
 			
 			venueService.save(venueC);
 			
@@ -76,8 +80,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			barFootage.setRoadName("Grosvenor Street");
 			barFootage.setPostCode("M1 7DZ");
 			barFootage.setCapacity(50);
-			barFootage.setLongitude(53.469205);
-			barFootage.setLatitude(-2.237385);
+			barFootage.setCoordinates();
+//			barFootage.setLongitude(53.469205);
+//			barFootage.setLatitude(-2.237385);
 			
 			venueService.save(barFootage);
 			

@@ -1,5 +1,6 @@
 package uk.ac.man.cs.eventlite.entities;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -10,6 +11,16 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Transient;
+
+import com.mapbox.api.geocoding.v5.MapboxGeocoding;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
+import com.mapbox.geojson.Point;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import uk.ac.man.cs.eventlite.dao.GeocodeImpl;
 
 @Entity
 @Table(name = "venues")
@@ -41,6 +52,8 @@ public class Venue {
 	@NotNull
 	@Min(0)
 	private int capacity;
+	
+	public static final String MAPTOKEN = "pk.eyJ1IjoiZXZlbnRsaXRlaDA3IiwiYSI6ImNqdGN1aXU0dDB5MGQzeXBjMDh0bXBmZWEifQ.cAtpPyEFrf04RlRjdtfc1w";
 	
 	@Value("${some.key: 0.0}")
 	private double longitude;
@@ -120,5 +133,44 @@ public class Venue {
 	
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
+	}
+	
+	public void setCoordinates()
+	{
+		MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
+				.accessToken(MAPTOKEN)
+				.country("GB")
+				.query(this.postCode)
+				.build();
+		
+		mapboxGeocoding.enqueueCall(new Callback<GeocodingResponse>() {
+			@Override
+			public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
+				List<CarmenFeature> results = response.body().features();
+		 
+				if (results.size() > 0) {
+				  // Log the first results Point.
+				  Point firstResultPoint = results.get(0).center();
+				  setLatitude(firstResultPoint.latitude());
+				  setLongitude(firstResultPoint.longitude());
+		 
+				} else {
+		 
+				  // No result for your request were found.
+				  System.out.println("No result :(");
+		 
+				}
+			}
+			@Override
+			public void onFailure(Call<GeocodingResponse> call, Throwable throwable) {
+				throwable.printStackTrace();
+			}
+		});
+		try {
+			Thread.sleep(1000L);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
