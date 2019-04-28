@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EventLite Home</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/webjars/font-awesome/css/font-awesome.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>EventLite</h1>
+    <!-- 3 most recents events-->
+    <!-- The 3 venues with the most events (most popular venues)-->
+    <!-- An image of some sort, so it looks nice -->
+    <!-- Buttons to the lists of events and venues -->
+    <!-- Maybe show the 3 venues on the map, as an extra -->
+
+    <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th><i class="fa fa-bolt"></i> Event</th>
+            <th><i class="fa fa-map-marker"></i> Venue</th>
+            <th><i class="fa fa-calendar"></i> Date</th>
+            <th><i class="fa fa-clock-o"></i> Time</th>
+            <th sec:authorize="hasRole('ROLE_ADMINISTRATOR')"><i class="fa fa-bolt"></i> More</th>
+          </tr>
+        </thead>
+        <tbody>
+  
+          <tr>
+            <td colspan="2"> Future Events: </td>
+          </tr>
+
+          <tr>
+            <td> <a th:text="${event1.name}" th:href="@{'/events/view/' + ${event1.id}}">View event</a></td>
+            <td th:text="${event1.venue.name}">Event venue</td>
+            <td th:text="${event1.date}">Event date</td>
+            <td th:text="${event1.time}">Event time</td>
+            <td sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
+                <a th:href="@{'/events/update/' + ${event1.id}}"><button type="button" class="btn btn-success">Update event</button></a>
+            </td>
+          </tr>
+
+          <tr>
+            <td> <a th:text="${event2.name}" th:href="@{'/events/view/' + ${event2.id}}">View event</a></td>
+            <td th:text="${event2.venue.name}">Event venue</td>
+            <td th:text="${event2.date}">Event date</td>
+            <td th:text="${event2.time}">Event time</td>
+            <td sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
+                <a th:href="@{'/events/update/' + ${event2.id}}"><button type="button" class="btn btn-success">Update event</button></a>
+            </td>
+          </tr>
+
+          <tr>
+            <td> <a th:text="${event3.name}" th:href="@{'/events/view/' + ${event3.id}}">View event</a></td>
+            <td th:text="${event3.venue.name}">Event venue</td>
+            <td th:text="${event3.date}">Event date</td>
+            <td th:text="${event3.time}">Event time</td>
+            <td sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
+                <a th:href="@{'/events/update/' + ${event3.id}}"><button type="button" class="btn btn-success">Update event</button></a>
+            </td>
+          </tr>
+          
+          
+        </tbody>
+      </table>
+
+    <p>This is EventLite. See the <a href="/events">list of events</a> for more information.</p>
+    <p>This is EventLite. See the <a href="/venues">list of venues</a> for more information.</p>
+  </div>
+
+  <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
