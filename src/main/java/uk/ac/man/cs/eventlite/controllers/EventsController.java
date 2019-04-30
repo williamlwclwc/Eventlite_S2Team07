@@ -128,6 +128,14 @@ public class EventsController {
 		
 		return "events/view";
     }
+	
+	@RequestMapping(value = "/view/{id1}/{id}", method = RequestMethod.GET)
+	public String tweetEvent(@PathVariable("id1") long id, Model model, Authentication auth,
+			@RequestParam(value = "Share event", required = false) String tweetContent, 
+			RedirectAttributes redirectAttrs) {
+		redirectAttrs.addFlashAttribute("tweet_success", "Your Tweet: " + tweetContent + "was posted.");
+		return "redirect:/events/view/{id}";
+    }
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public String deleteEvent(@PathVariable("id") long id) {
