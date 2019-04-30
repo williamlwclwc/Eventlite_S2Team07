@@ -73,10 +73,9 @@ public class VenuesController {
 			return "venues/new";
 		}
 
+		venue.setCoordinates();
 		venueService.save(venue);
 		redirectAttrs.addFlashAttribute("ok_message", "New venue added.");
-		
-		setVenueCoordinates(venue);
 
 		return "redirect:/venues";
 	}
@@ -84,10 +83,10 @@ public class VenuesController {
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String editVenue(@PathVariable("id") long id, Model model) {
 
-		Venue e = venueService.findById(id);
-		model.addAttribute("venue", e);
+		Venue v = venueService.findById(id);
+		model.addAttribute("venue", v);
 		
-		setVenueCoordinates(e);
+		v.setCoordinates();
 
 		return "venues/update";
 	}
@@ -101,10 +100,9 @@ public class VenuesController {
 			return "venues/update";
 		}
 
+		venue.setCoordinates();
 		venueService.save(venue);
 		redirectAttrs.addFlashAttribute("ok_message", "Venue updated.");
-		
-		setVenueCoordinates(venue);
 
 		return "redirect:/venues";
 	}
@@ -197,11 +195,6 @@ public class VenuesController {
 		model.addAttribute("events", upcomingEvents);
 		return "venues/view";
     }
-	
-	public void setVenueCoordinates(final Venue venue)
-	{
-		venue.setCoordinates();
-		venueService.save(venue);
-	}
+
 }
 
