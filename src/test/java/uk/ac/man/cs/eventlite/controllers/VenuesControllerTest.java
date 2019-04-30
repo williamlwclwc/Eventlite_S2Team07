@@ -337,6 +337,7 @@ public class VenuesControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(view().name("redirect:/venues"))
 				.andExpect(handler().methodName("resultVenues"));
+		verify(venueService).findAll();
 	}
 	
 }

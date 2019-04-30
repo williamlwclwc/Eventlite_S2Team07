@@ -240,5 +240,6 @@ public class EventsControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(view().name("redirect:/events"))
 				.andExpect(handler().methodName("resultEvents"));
+		verify(eventService).findAll();
 	}
 }
