@@ -52,6 +52,13 @@
 	      </button>
 	      <span th:text="${tweet_success}">Message posted!</span>
     </div>
+    <div class="container">
+	    <div class="alert alert-danger alert-dismissible" role="alert" th:if="${tweet_failed}">
+	      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	        <i class="fa fa-times" aria-hidden="true"></i>
+	      </button>
+	      <span th:text="${tweet_failed}">Message not posted!</span>
+    </div>
 	<div>
 		<h4> <i class="fa fa-twitter"></i> Share the event via Twitter!</h4>
 		<form th:action="@{'/events/view/' + ${event.id} + '/' + ${event.id}}" method="get">
