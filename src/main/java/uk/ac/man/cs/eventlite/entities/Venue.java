@@ -20,7 +20,6 @@ import com.mapbox.geojson.Point;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import uk.ac.man.cs.eventlite.dao.GeocodeImpl;
 
 @Entity
 @Table(name = "venues")

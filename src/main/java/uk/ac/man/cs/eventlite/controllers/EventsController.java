@@ -72,9 +72,10 @@ public class EventsController {
 
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String editEvent(@PathVariable("id") long id, Model model) {
-
+		
 		Event e = eventService.findById(id);
 		model.addAttribute("event", e);
+				
 		model.addAttribute("venues", venueService.findAll());
 
 		return "events/update";
@@ -98,9 +99,16 @@ public class EventsController {
 	}
 
 	@RequestMapping(value = "view/{id}", method = RequestMethod.GET)
-	public String viewEvent(@PathVariable("id") long id, Model model) {
+	public String viewEvent(@PathVariable("id") long id, Model model, Authentication auth) {
+		ArrayList<Event> mapEvents = new ArrayList<Event>();
 		Event event = eventService.findById(id);
 		model.addAttribute("event", event);
+		mapEvents.add(event);
+		if (auth != null && auth.isAuthenticated()) {
+			mapEvents.addAll(eventService.findAllByOrganiserName(auth.getName()));
+		}
+		model.addAttribute("map_events", mapEvents);
+		
 		return "events/view";
     }
 

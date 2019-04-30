@@ -1,6 +1,7 @@
 package uk.ac.man.cs.eventlite.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,10 @@ public class EventServiceImpl implements EventService {
 		return eventRepository.findAllByOrderByDateAscNameAsc();
 	}
 	
+	public List<Event> findAllByOrganiserName(String organiser) {
+		return eventRepository.findAllByOrganiserName(organiser);
+	}
+	
 	public Event save(Event e) {
 		return eventRepository.save(e);
 	}
@@ -52,4 +57,5 @@ public class EventServiceImpl implements EventService {
 	public void deleteAll() {
 		eventRepository.deleteAll();
 	}
+
 }
