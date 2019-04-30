@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
+import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.twitter.api.CursoredList;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.TwitterProfile;
@@ -41,25 +42,16 @@ public class EventsController {
 	@Autowired
 	private VenueService venueService;
 	
-	/*private Twitter twitter;
+	private Twitter twitter;
+	
+	private ConnectionRepository connectionRepository;
 
     @Inject
-    public EventsController(Twitter twitter) {
+    public EventsController(Twitter twitter, ConnectionRepository connectionRepository) {
         this.twitter = twitter;
+        this.connectionRepository = connectionRepository;
     }
     
-    @RequestMapping(method=RequestMethod.GET)
-    public String eventsTwitter(Model model) {
-        if (!twitter.isAuthorized()) {
-            return "redirect:/connect/twitter";
-        }
-
-        model.addAttribute(twitter.userOperations().getUserProfile());
-        CursoredList<TwitterProfile> friends = twitter.friendOperations().getFriends();
-        model.addAttribute("friends", friends);
-        return "events";
-    }*/
-
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllEvents(Model model) {
 
