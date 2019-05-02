@@ -62,7 +62,7 @@
 	<div>
 		<h4> <i class="fa fa-twitter"></i> Share the event via Twitter!</h4>
 		<form th:action="@{'/events/view/' + ${event.id} + '/' + ${event.id}}" method="get">
-			<input class="form-control" type="text" name="Share event">
+			<input class="form-control" type="text" name="Share event" th:placeholder="${event.name}">
 		    <input class="btn btn-default" type	="submit" value="Send Tweet">
       	</form>
 	</div>
