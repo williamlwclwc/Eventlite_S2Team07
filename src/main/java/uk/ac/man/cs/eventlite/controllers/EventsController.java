@@ -6,11 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.twitter.api.CursoredList;
+import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.TwitterProfile;
 
@@ -42,8 +44,10 @@ public class EventsController {
 	@Autowired
 	private VenueService venueService;
 	
+	@Autowired
 	private Twitter twitter;
 	
+	@Autowired
 	private ConnectionRepository connectionRepository;
 
     @Inject
@@ -57,7 +61,11 @@ public class EventsController {
 
 		model.addAttribute("future_events", eventService.findAllFutureEvents());
 		model.addAttribute("past_events", eventService.findAllPastEvents());
-
+		List<Tweet> feed = twitter.timelineOperations().getUserTimeline();
+		if (feed.size() > 5)
+			feed = feed.subList(0, 4);
+		model.addAttribute("twitter_feed", feed);
+		
 		return "events/index";
 	}
 	

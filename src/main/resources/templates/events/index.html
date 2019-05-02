@@ -86,7 +86,13 @@ layout:decorate="~{layouts/default}">
             </tr>
           </thead>
           <tbody>
-
+            <tr th:if="${twitter_feed.empty}">
+              <td colspan="2"> No Tweets Available </td>
+            </tr>
+            <tr th:each="tw, iterStat : ${twitter_feed}" th:class="${iterStat.odd} ? 'odd': ''">
+              <td th:text="${{tw.createdAt}}">Tweet time</td>
+              <td> <a th:text="${tw.text}" th:href="${'https://twitter.com/' + {tw.fromUser} + '/status/' + {tw.id}}">View tweet</a></td>
+            </tr>
           </tbody>
         </table>
       </div>
