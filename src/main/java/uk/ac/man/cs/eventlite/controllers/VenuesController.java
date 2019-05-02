@@ -151,7 +151,6 @@ public class VenuesController {
 			}
 			else
 			{
-				System.out.println("TEST");
 				redirectAttrs.addFlashAttribute("venue_delete_failed", "A venue cannot be deleted if it has one or more (past or future) events.");
 				return "redirect:/venues/view/{id}";
 			}
