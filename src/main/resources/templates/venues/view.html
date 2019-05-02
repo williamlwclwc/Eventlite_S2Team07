@@ -48,6 +48,9 @@
 	  	  		<form th:action="@{'/venues/' + ${venue.id}}" th:method="delete" >
 					<button type="submit" class="btn btn-danger"><i aria-hidden="true"></i> Delete</button>
 				</form>
+				<br>
+				<p th:text="${venue_delete_failed}">A venue cannot be deleted if it has one or more (past or future) events.</p>
+				</br>
 			</div>
 		</div> 
 	</div>
