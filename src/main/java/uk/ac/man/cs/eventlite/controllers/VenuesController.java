@@ -65,7 +65,7 @@ public class VenuesController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public String createEvent(@RequestBody @Valid @ModelAttribute Venue venue,
+	public String createVenue(@RequestBody @Valid @ModelAttribute Venue venue,
 			BindingResult errors, Model model, RedirectAttributes redirectAttrs) {
 
 		if (errors.hasErrors()) {
