@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 
@@ -29,10 +30,15 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.twitter.api.Twitter;
+import org.springframework.social.twitter.api.impl.TwitterTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -81,6 +87,20 @@ public class EventsControllerTest {
 
 	@InjectMocks
 	private EventsController eventsController;
+	
+	@Mock
+	private ConnectionRepository connectionRepo;
+	  
+	@Mock
+	Connection<Twitter> twitterConn;
+	  
+    String consumerKey = "LLykm2UhFxxpnimiclbZYz8yy"; 
+	String consumerSecret = "H0wOV6cKR7JQjPIgyg26Nqk0BxYfGHECIXL68hMJExjh1Tgecw"; 
+	String accessToken = "1108906765444354048-mZhs2J5y6yXGBFB3ky7phLefFsWU8d"; 
+	String accessTokenSecret = "1F54ktRbYG94qdGzemi2FabtasM2guVlv7WzYaLroRP8c";
+	  
+	@Spy
+	Twitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);
 
 	@Before
 	public void setup() {
@@ -125,6 +145,29 @@ public class EventsControllerTest {
 				.andExpect(view().name("redirect:/events"))
 				.andExpect(model().hasNoErrors());
 	}
+	  
+	@Test
+	public void testTwitterPost() throws Exception {
+	    
+	    // TEST FOR WHEN USER IS AUTHORISED (LOGGED IN)
+	    when(twitter.isAuthorized()).thenReturn(true);
+	    
+	    mvc.perform(MockMvcRequestBuilders.get("/events/view/0/0").with(user("Rob").roles(Security.ADMIN_ROLE))
+	        .contentType(MediaType.APPLICATION_FORM_URLENCODED).with(csrf())
+	          .accept(MediaType.TEXT_HTML)
+	          .param("Share event", "Time: " + String.valueOf((java.time.LocalTime.now()))))
+	      .andExpect(status().is(302)).andExpect(view().name("redirect:/events/view/{id}"));   
+	    
+	    // TEST FOR WHEN USER IS NOT AUTHORISED (NOT LOGGED IN)
+	    when(twitter.isAuthorized()).thenReturn(false);
+	    
+	    mvc.perform(MockMvcRequestBuilders.get("/events/view/0/0").with(user("Rob").roles(Security.ADMIN_ROLE))
+	        .contentType(MediaType.APPLICATION_FORM_URLENCODED).with(csrf())
+	          .accept(MediaType.TEXT_HTML)
+	          .param("Share event", "Time: " + String.valueOf((java.time.LocalTime.now()))))
+	      .andExpect(status().is(302)).andExpect(view().name("redirect:/connect/twitter"));  
+	    
+	  }
 	
 	//=================Draft Code=======
 	/* Copied code over from venueControllerTests and currently need to figure out how to pass a mock venue as a 
