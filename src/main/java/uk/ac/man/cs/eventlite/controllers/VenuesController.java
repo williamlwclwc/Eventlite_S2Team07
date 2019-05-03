@@ -141,17 +141,18 @@ public class VenuesController {
 //    }
 //
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public String deleteVenue(@PathVariable("id") long id) {
+	public String deleteVenue(@PathVariable("id") long id, RedirectAttributes redirectAttrs) {
 	
-			try {
-				venueService.delete(id);
-				return "redirect:/venues";
-			}
-			catch (Exception e) {
-				return "redirect:/venues";
-			}
-		
-		
+		if (venueService.findById(id).getEvents().isEmpty())
+		{
+			venueService.delete(id); 
+			return "redirect:/venues";
+		}
+		else
+		{
+			redirectAttrs.addFlashAttribute("venue_delete_failed", "A venue cannot be deleted if it has one or more (past or future) events.");
+			return "redirect:/venues/view/{id}";
+		}		
 	}	
 //
 	@RequestMapping(value = "/searchResult", method = RequestMethod.GET)

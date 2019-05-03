@@ -21,6 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.Filter;
 
@@ -123,13 +125,41 @@ public class VenuesControllerTest {
 	}
 	
 	@Test
-	public void deleteURIRedirect() throws Exception {
+	public void deleteVenueNoEvent() throws Exception {
+		
+		Set<Event> emptyEventSet = new HashSet<Event>();
+		
+		venue.setId(1);
+		when(venueService.findById(1)).thenReturn(venue);
+		when(venue.getEvents()).thenReturn(emptyEventSet);
+		
 		mvc.perform(MockMvcRequestBuilders.delete("/venues/1").with(user("Rob").roles(Security.ADMIN_ROLE))
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED).with(csrf()))
 				.andExpect(status().isFound())
 				.andExpect(view().name("redirect:/venues"))
 				.andExpect(model().hasNoErrors());
 	}
+	
+	@Test
+	public void deleteVenueWithEvent() throws Exception {
+		
+		Set<Event> nonEmptyEventSet = new HashSet<Event>();
+		Event anEvent = new Event();
+		nonEmptyEventSet.add(anEvent);
+
+		venue.setId(2);
+		when(venueService.findById(2)).thenReturn(venue);
+		when(venue.getEvents()).thenReturn(nonEmptyEventSet);
+		
+		mvc.perform(MockMvcRequestBuilders.delete("/venues/2").with(user("Rob").roles(Security.ADMIN_ROLE))
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED).with(csrf()))
+				.andExpect(status().isFound())
+				.andExpect(view().name("redirect:/venues/view/{id}"))
+				.andExpect(model().hasNoErrors());
+	}
+	
+	
+	
 
 	// ====TESTS FOR NEW VENUE===========
 	@Test
