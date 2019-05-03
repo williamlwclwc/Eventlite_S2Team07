@@ -143,24 +143,16 @@ public class VenuesController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public String deleteVenue(@PathVariable("id") long id, RedirectAttributes redirectAttrs) {
 	
-		try {
-			if (venueService.findById(id).getEvents().isEmpty())
-			{
-				venueService.delete(id); 
-				return "redirect:/venues/view";
-			}
-			else
-			{
-				redirectAttrs.addFlashAttribute("venue_delete_failed", "A venue cannot be deleted if it has one or more (past or future) events.");
-				return "redirect:/venues/view/{id}";
-			}
-		}
-		catch (Exception e) {
-			redirectAttrs.addFlashAttribute("venue_delete_error", "An error has occurred!");
+		if (venueService.findById(id).getEvents().isEmpty())
+		{
+			venueService.delete(id); 
 			return "redirect:/venues";
 		}
-		
-		
+		else
+		{
+			redirectAttrs.addFlashAttribute("venue_delete_failed", "A venue cannot be deleted if it has one or more (past or future) events.");
+			return "redirect:/venues/view/{id}";
+		}		
 	}	
 //
 	@RequestMapping(value = "/searchResult", method = RequestMethod.GET)
