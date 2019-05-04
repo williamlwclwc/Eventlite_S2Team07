@@ -232,4 +232,14 @@ public class EventsControllerTest {
 //		verify(venueService, never()).save(venue);
 //	}
 //=========================
+	@Test
+	public void searchURIRedirect() throws Exception {
+		when(eventService.findAll()).thenReturn(null);
+		mvc.perform(MockMvcRequestBuilders.get("/events/searchResult?Search+for+events=A")
+				.accept(MediaType.TEXT_HTML))
+				.andExpect(status().isFound())
+				.andExpect(view().name("redirect:/events"))
+				.andExpect(handler().methodName("resultEvents"));
+		verify(eventService).findAll();
+	}
 }

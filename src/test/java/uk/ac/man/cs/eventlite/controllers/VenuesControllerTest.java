@@ -353,6 +353,17 @@ public class VenuesControllerTest {
 		verify(venueService, never()).save(venue);
 	}
 
+	@Test
+	public void searchURIRedirect() throws Exception {
+		when(venueService.findAll()).thenReturn(null);
+		mvc.perform(MockMvcRequestBuilders.get("/venues/searchResult?Search+for+venues=A")
+				.accept(MediaType.TEXT_HTML))
+				.andExpect(status().isFound())
+				.andExpect(view().name("redirect:/venues"))
+				.andExpect(handler().methodName("resultVenues"));
+		verify(venueService).findAll();
+	}
+	
 }
 
 
