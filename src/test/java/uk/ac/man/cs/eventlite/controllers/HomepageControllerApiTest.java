@@ -1,6 +1,8 @@
 package uk.ac.man.cs.eventlite.controllers;
 
 import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -26,8 +28,12 @@ public class HomepageControllerApiTest {
 	
 	@Test
 	public void visitHomePage() throws Exception {
-		this.mvc.perform(get("/api").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+		this.mvc.perform(get("/api").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
 				.andExpect(jsonPath("$._links.length()", equalTo(3)))
+				.andExpect(jsonPath("$._links.events.href", not(empty())))
+			    .andExpect(jsonPath("$._links.venues.href", not(empty())))
+			    .andExpect(jsonPath("$._links.profile.href", not(empty())))
 				.andExpect(jsonPath("$._links.events.href", endsWith("/api/events")))
 			    .andExpect(jsonPath("$._links.venues.href", endsWith("/api/venues")))
 			    .andExpect(jsonPath("$._links.profile.href", endsWith("/api/profile")));
