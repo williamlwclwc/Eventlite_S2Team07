@@ -49,12 +49,10 @@ public class HomepageController {
 		while(itr.hasNext()) {
 			Event event = itr.next();
 			Venue venue = event.getVenue();
-			System.out.println("Event - " + event.getName() + " at venue - " + venue.getName());
 			if(!venues.contains(venue))
 			{
 				venues.add(venue);
 				numberOfEvents.add(1);
-				System.out.println("Added 1 for venue " + venue.getName());
 			}
 			else
 			{
