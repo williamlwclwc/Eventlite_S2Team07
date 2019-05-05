@@ -121,7 +121,7 @@ public class VenuesControllerTest {
 		mvc.perform(MockMvcRequestBuilders.get("/venues/view/1").contentType(MediaType.TEXT_HTML)).andExpect(status().isOk())
 		.andExpect(view().name("venues/view")).andExpect(handler().methodName("viewVenue"));
 		
-		verify(venue);
+		verify(venueService).findById(1);
 	}
 	
 	@Test
