@@ -204,6 +204,7 @@ public class VenuesControllerTest {
 		assertThat(name, equalTo(arg.getValue().getName()));
 
 	}
+	
 
 	@Test
 	public void CreateWithTooLongName() throws Exception{
@@ -364,6 +365,56 @@ public class VenuesControllerTest {
 		verify(venueService).findAll();
 	}
 	
+	private static final String roadNameForCoords = "16 Peter St";
+	private static final String postCodeForCoords = "M60 2DS";
+	private static final double latitude = 53.4771068769154;
+	private static final double longitude = -2.24505647734087;
+	
+	@Test
+	public void coordinatesAfterValidCreate() throws Exception {
+		ArgumentCaptor<Venue> arg = ArgumentCaptor.forClass(Venue.class);
+		mvc.perform(MockMvcRequestBuilders.post("/venues").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.param("name", name)
+				.param("roadName", roadNameForCoords)
+				.param("postCode", postCodeForCoords)
+				.param("capacity", capacity)
+				.accept(MediaType.TEXT_HTML).with(csrf()))
+			.andExpect(status().isFound()).andExpect(content().string(""))
+			.andExpect(view().name("redirect:/venues")).andExpect(model().hasNoErrors())
+			.andExpect(handler().methodName("createVenue"));
+
+		verify(venueService).save(arg.capture());
+		assertThat(name, equalTo(arg.getValue().getName()));
+		assertThat(roadNameForCoords,equalTo(arg.getValue().getRoadName()));
+		assertThat(postCodeForCoords, equalTo(arg.getValue().getPostCode()));
+		assertThat(latitude, equalTo(arg.getValue().getLatitude()));
+		assertThat(longitude, equalTo(arg.getValue().getLongitude()));
+
+	}
+	
+	@Test
+	public void coordinatesAfterValidUpdate() throws Exception {
+		ArgumentCaptor<Venue> arg = ArgumentCaptor.forClass(Venue.class);
+		
+		mvc.perform(MockMvcRequestBuilders.post("/venues/update").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.param("id", "1")
+				.param("name", name)
+				.param("roadName", roadNameForCoords)
+				.param("postCode", postCodeForCoords)
+				.param("capacity", capacity)
+				.accept(MediaType.TEXT_HTML).with(csrf()))
+			.andExpect(status().isFound()).andExpect(content().string(""))
+			.andExpect(view().name("redirect:/venues")).andExpect(model().hasNoErrors())
+			.andExpect(handler().methodName("SaveEditedVenue"));
+		
+		verify(venueService).save(arg.capture());
+		assertThat(name, equalTo(arg.getValue().getName()));
+		assertThat(roadNameForCoords,equalTo(arg.getValue().getRoadName()));
+		assertThat(postCodeForCoords, equalTo(arg.getValue().getPostCode()));
+		assertThat(latitude, equalTo(arg.getValue().getLatitude()));
+		assertThat(longitude, equalTo(arg.getValue().getLongitude()));
+	
+	}
 }
 
 
