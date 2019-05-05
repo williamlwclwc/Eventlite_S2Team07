@@ -48,6 +48,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			venueA.setPostCode("E14 3BD");
 			venueA.setCapacity(50);
 			venueA.setCoordinates();
+			venueA.setOwner("Markel");
 //			venueA.setLongitude(-0.012425);
 //			venueA.setLatitude(51.487696);
 			
@@ -59,6 +60,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			venueB.setPostCode("S43 2EZ");
 			venueB.setCapacity(1000);
 			venueB.setCoordinates();
+			venueB.setOwner("Rob");
 //			venueB.setLongitude(-1.399808);
 //			venueB.setLatitude(53.279673);
 			
@@ -70,6 +72,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			venueC.setPostCode("WA15 8QY");
 			venueC.setCapacity(10);
 			venueC.setCoordinates();
+			venueC.setOwner("Markel");
 //			venueC.setLongitude(53.381270);
 //			venueC.setLatitude(-2.338228);
 			
@@ -81,6 +84,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			barFootage.setPostCode("M1 7DZ");
 			barFootage.setCapacity(50);
 			barFootage.setCoordinates();
+			barFootage.setOwner("Caroline");
 //			barFootage.setLongitude(53.469205);
 //			barFootage.setLatitude(-2.237385);
 			

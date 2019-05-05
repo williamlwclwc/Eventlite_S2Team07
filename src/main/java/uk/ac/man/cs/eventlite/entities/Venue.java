@@ -43,6 +43,9 @@ public class Venue {
 	@Transient
 	private String address;
 	
+	@NotBlank
+	private String owner;
+	
 	@PostLoad
 	public void postLoad(){
 		this.address = roadName + ", " + postCode ;
@@ -94,6 +97,14 @@ public class Venue {
 		this.capacity = capacity;
 	}
 	
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
 	public String getAddress() {
 		return address;
 	}
