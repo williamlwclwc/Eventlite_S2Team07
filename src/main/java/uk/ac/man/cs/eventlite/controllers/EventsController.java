@@ -128,6 +128,28 @@ public class EventsController {
 		
 		return "events/view";
     }
+	
+	@RequestMapping(value = "/view/{id1}/{id}", method = RequestMethod.GET)
+	public String tweetEvent(@PathVariable("id1") long id, Model model, Authentication auth,
+			@RequestParam(value = "Share event", required = false, defaultValue = "") String tweetContent, 
+			RedirectAttributes redirectAttrs) {
+		
+		if (!twitter.isAuthorized()) {
+            return "redirect:/connect/twitter";
+        }
+		
+		if(tweetContent != "") {
+			try {
+				twitter.timelineOperations().updateStatus(tweetContent);
+				redirectAttrs.addFlashAttribute("tweet_success", "Your Tweet: " + tweetContent + "was posted.");
+			} catch(Exception e) {
+				redirectAttrs.addFlashAttribute("tweet_failed", "Something wrong happens... Your tweet may be too long or duplicated.");
+			}
+			return "redirect:/events/view/{id}";
+		} else {
+			return "/events/view/{id}";
+		}
+    }
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public String deleteEvent(@PathVariable("id") long id) {
