@@ -1,24 +1,24 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/default}">
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layouts/default}">
 <head>
   <title>All events</title>
 </head>
 <body>
   <div layout:fragment="content">
-  	
+
     <h1>All events</h1>
-	
-	<form action="/events/searchResult" method="get">
-        <div class="form-inline">
-	        Search for events:
-	        <i class="fa fa-search"></i>
-	        <input class="form-control"type="text" name="Search for events">
-	        <input class="btn btn-default" type	="submit" value="Search">
-        </div>
+
+    <form action="/events/searchResult" method="get">
+      <div class="form-inline">
+        Search for events:
+        <i class="fa fa-search"></i>
+        <input class="form-control"type="text" name="Search for events">
+        <input class="btn btn-default" type	="submit" value="Search">
+      </div>
     </form>
-	
+
     <table class="table table-striped table-hover">
       <thead>
         <tr>
@@ -43,10 +43,10 @@
           <td th:text="${{fe.date}}">Event date</td>
           <td th:text="${{fe.time}}">Event time</td>
           <td sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
-          	<a th:href="@{'/events/update/' + ${fe.id}}"><button type="button" class="btn btn-success">Update event</button></a>
+            <a th:href="@{'/events/update/' + ${fe.id}}"><button type="button" class="btn btn-success">Update event</button></a>
           </td>
         </tr>
-        
+
         <tr th:if="${past_events.empty}">
           <td colspan="2"> No Past Events Available </td>
         </tr>
@@ -59,20 +59,47 @@
           <td th:text="${{pe.date}}">Event date</td>
           <td th:text="${{pe.time}}">Event time</td>
           <td sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
-          	<a th:href="@{'/events/update/' + ${pe.id}}"><button type="button" class="btn btn-success">Update event</button></a>
+            <a th:href="@{'/events/update/' + ${pe.id}}"><button type="button" class="btn btn-success">Update event</button></a>
           </td>
         </tr>
-        
+
       </tbody>
     </table>
-    
+
     <div sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
-  	  <a href="/events/new"><button type="button" class="btn btn-success">New event</button></a>
-	</div>
-	<br>
-	<a href="/"><button type="button" class="btn btn-success">Back</button></a>
-	
-	<div th:replace="events/map :: map(events=${future_events})"></div>
+      <a href="/events/new"><button type="button" class="btn btn-success">New event</button></a>
+    </div>
+
+    <a href="/"><button type="button" class="btn btn-success">Back</button></a>
+    <br/>
+    <br/>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <b>Twitter Feed</b>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th><i class="fa fa-twitter"></i>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:if="${twitter_feed.empty}">
+              <td colspan="2"> No Tweets Available, please check if Twitter is connected. </td>
+            </tr>
+            <tr th:each="tw, iterStat : ${twitter_feed}" th:class="${iterStat.odd} ? 'odd': ''">
+              <td th:text="${{tw.createdAt}}">Tweet time</td>
+              <td> <a th:text="${tw.text}" th:href="${'https://twitter.com/' + {tw.fromUser} + '/status/' + {tw.id}}">View tweet</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div th:replace="events/map :: map(events=${future_events})"></div>
+
   </div>
 
 </body>
