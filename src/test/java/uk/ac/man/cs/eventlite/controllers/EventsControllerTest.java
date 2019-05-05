@@ -149,15 +149,85 @@ public class EventsControllerTest {
 	@Test
 	public void testTwitterPost() throws Exception {
 	    
+		String localTime = String.valueOf((java.time.LocalTime.now()));
+		String tooLongTweet = "mvc.perform(MockMvcRequestBuilders.get(\"/events/view/0/0\").with(user(\"Rob\").roles(Security.ADMIN_ROLE))\n" + 
+				"	        .contentType(MediaType.APPLICATION_FORM_URLENCODED).with(csrf())\n" + 
+				"	          .accept(MediaType.TEXT_HTML)\n" + 
+				"	          .param(\"Share event\", \"Time: \" + localTime))\n" + 
+				"	      .andExpect(status().is(302))\n" + 
+				"	      .andExpect(handler().methodName(\"tweetEvent\"))\n" + 
+				"	      .andExpect(flash().attributeExists(\"tweet_success\"))\n" + 
+				"	      .andExpect(view().name(\"redirect:/events/view/{id}\")); \n" + 
+				"	    \n" + 
+				"	    // Test for duplicate tweet\n" + 
+				"	    mvc.perform(MockMvcRequestBuilders.get(\"/events/view/0/0\").with(user(\"Rob\").roles(Security.ADMIN_ROLE))\n" + 
+				"		        .contentType(MediaType.APPLICATION_FORM_URLENCODED).with(csrf())\n" + 
+				"		          .accept(MediaType.TEXT_HTML)\n" + 
+				"		          .param(\"Share event\", \"Time: \" + localTime))\n" + 
+				"		      .andExpect(status().is(302))\n" + 
+				"		      .andExpect(handler().methodName(\"tweetEvent\"))\n" + 
+				"		      .andExpect(flash().attributeExists(\"tweet_failed\"))\n" + 
+				"		      .andExpect(view().name(\"redirect:/events/view/{id}\"));\n" + 
+				"	    \n" + 
+				"	    // Test for too long tweet\n" + 
+				"	    mvc.perform(MockMvcRequestBuilders.get(\"/events/view/0/0\").with(user(\"Rob\").roles(Security.ADMIN_ROLE))\n" + 
+				"		        .contentType(MediaType.APPLICATION_FORM_URLENCODED).with(csrf())\n" + 
+				"		          .accept(MediaType.TEXT_HTML)\n" + 
+				"		          .param(\"Share event\", \"Time: \" + tooLongTweet))\n" + 
+				"		      .andExpect(status().is(302))\n" + 
+				"		      .andExpect(handler().methodName(\"tweetEvent\"))\n" + 
+				"		      .andExpect(flash().attributeExists(\"tweet_failed\"))\n" + 
+				"		      .andExpect(view().name(\"redirect:/events/view/{id}\")); ";
+		
 	    // TEST FOR WHEN USER IS AUTHORISED (LOGGED IN)
 	    when(twitter.isAuthorized()).thenReturn(true);
 	    
 	    mvc.perform(MockMvcRequestBuilders.get("/events/view/0/0").with(user("Rob").roles(Security.ADMIN_ROLE))
 	        .contentType(MediaType.APPLICATION_FORM_URLENCODED).with(csrf())
 	          .accept(MediaType.TEXT_HTML)
-	          .param("Share event", "Time: " + String.valueOf((java.time.LocalTime.now()))))
-	      .andExpect(status().is(302)).andExpect(view().name("redirect:/events/view/{id}"));   
+	          .param("Share event", "Time: " + localTime))
+	      .andExpect(status().is(302))
+	      .andExpect(handler().methodName("tweetEvent"))
+	      .andExpect(flash().attributeExists("tweet_success"))
+	      .andExpect(view().name("redirect:/events/view/{id}")); 
 	    
+	    // Test for duplicate tweet
+	    mvc.perform(MockMvcRequestBuilders.get("/events/view/0/0").with(user("Rob").roles(Security.ADMIN_ROLE))
+		        .contentType(MediaType.APPLICATION_FORM_URLENCODED).with(csrf())
+		          .accept(MediaType.TEXT_HTML)
+		          .param("Share event", "Time: " + localTime))
+		      .andExpect(status().is(302))
+		      .andExpect(handler().methodName("tweetEvent"))
+		      .andExpect(flash().attributeExists("tweet_failed"))
+		      .andExpect(view().name("redirect:/events/view/{id}"));
+	    
+	    // Test for too long tweet
+	    mvc.perform(MockMvcRequestBuilders.get("/events/view/0/0").with(user("Rob").roles(Security.ADMIN_ROLE))
+		        .contentType(MediaType.APPLICATION_FORM_URLENCODED).with(csrf())
+		          .accept(MediaType.TEXT_HTML)
+		          .param("Share event", "Time: " + tooLongTweet))
+		      .andExpect(status().is(302))
+		      .andExpect(handler().methodName("tweetEvent"))
+		      .andExpect(flash().attributeExists("tweet_failed"))
+		      .andExpect(view().name("redirect:/events/view/{id}")); 
+	}
+	
+	public void testTwitterNoContent() throws Exception {
+	    
+	    // TEST FOR WHEN USER IS AUTHORISED (LOGGED IN)
+	    when(twitter.isAuthorized()).thenReturn(true);
+	    
+	    mvc.perform(MockMvcRequestBuilders.get("/events/view/0/0").with(user("Rob").roles(Security.ADMIN_ROLE))
+	        .contentType(MediaType.APPLICATION_FORM_URLENCODED).with(csrf())
+	          .accept(MediaType.TEXT_HTML)
+	          .param("Share event", "Time: " + ""))
+	      .andExpect(status().is(302))
+	      .andExpect(handler().methodName("tweetEvent"))
+	      .andExpect(view().name("/events/view/{id}")); 
+	}
+	
+	@Test
+	public void testTwitterRedirectConnectionPage() throws Exception {
 	    // TEST FOR WHEN USER IS NOT AUTHORISED (NOT LOGGED IN)
 	    when(twitter.isAuthorized()).thenReturn(false);
 	    
@@ -165,9 +235,11 @@ public class EventsControllerTest {
 	        .contentType(MediaType.APPLICATION_FORM_URLENCODED).with(csrf())
 	          .accept(MediaType.TEXT_HTML)
 	          .param("Share event", "Time: " + String.valueOf((java.time.LocalTime.now()))))
-	      .andExpect(status().is(302)).andExpect(view().name("redirect:/connect/twitter"));  
+	      .andExpect(status().is(302))
+	      .andExpect(handler().methodName("tweetEvent"))
+	      .andExpect(view().name("redirect:/connect/twitter"));  
 	    
-	  }
+	}
 	
 	//=================Draft Code=======
 	/* Copied code over from venueControllerTests and currently need to figure out how to pass a mock venue as a 
