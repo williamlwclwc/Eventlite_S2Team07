@@ -72,6 +72,21 @@ public class EventsControllerApiTest {
 
 		verify(eventService).findAllFutureEvents();
 	}
+	
+	@Test
+	public void getEventDetails() throws Exception {
+		Event e = new Event();
+		when(eventService.findById(0)).thenReturn((Event) e);
+
+		mvc.perform(get("/api/events/0").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+				.andExpect(handler().methodName("getEvent")).andExpect(jsonPath("$.length()", equalTo(6)))
+				.andExpect(jsonPath("$._links.self.href", endsWith("/api/events/0")))
+				.andExpect(jsonPath("$._links.venue.href", endsWith("events/0/venue")));
+
+
+		verify(eventService).findById(0);
+	}
+	
 
 	@Test
 	public void getIndexWithEvents() throws Exception {
