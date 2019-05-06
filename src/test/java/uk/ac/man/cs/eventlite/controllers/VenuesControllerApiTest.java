@@ -50,7 +50,7 @@ public class VenuesControllerApiTest {
 	private Filter springSecurityFilterChain;
 
 	@Mock
-	private VenueService eventService;
+	private VenueService venueService;
 
 	@InjectMocks
 	private VenuesControllerApi venuesController;
@@ -64,25 +64,25 @@ public class VenuesControllerApiTest {
 
 	@Test
 	public void getIndexWhenNoVenues() throws Exception {
-		when(eventService.findAll()).thenReturn(Collections.<Venue> emptyList());
+		when(venueService.findAll()).thenReturn(Collections.<Venue> emptyList());
 
 		mvc.perform(get("/api/venues").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(handler().methodName("getAllVenues")).andExpect(jsonPath("$.length()", equalTo(1)))
 				.andExpect(jsonPath("$._links.self.href", endsWith("/api/venues")));
 
-		verify(eventService).findAll();
+		verify(venueService).findAll();
 	}
 
 	@Test
 	public void getIndexWithVenues() throws Exception {
 		Venue e = new Venue();
-		when(eventService.findAll()).thenReturn(Collections.<Venue> singletonList(e));
+		when(venueService.findAll()).thenReturn(Collections.<Venue> singletonList(e));
 
 		mvc.perform(get("/api/venues").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(handler().methodName("getAllVenues")).andExpect(jsonPath("$.length()", equalTo(2)))
 				.andExpect(jsonPath("$._links.self.href", endsWith("/api/venues")))
 				.andExpect(jsonPath("$._embedded.venues.length()", equalTo(1)));
 
-		verify(eventService).findAll();
+		verify(venueService).findAll();
 	}
 }

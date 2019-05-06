@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -66,7 +67,7 @@ public class VenuesController {
 	
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String createVenue(@RequestBody @Valid @ModelAttribute Venue venue,
-			BindingResult errors, Model model, RedirectAttributes redirectAttrs) {
+			BindingResult errors, Model model, RedirectAttributes redirectAttrs, Authentication auth) {
 
 		if (errors.hasErrors()) {
 			model.addAttribute("venue", venue);
@@ -74,6 +75,7 @@ public class VenuesController {
 		}
 
 		venue.setCoordinates();
+		venue.setOwner(auth.getName());
 		venueService.save(venue);
 		redirectAttrs.addFlashAttribute("ok_message", "New venue added.");
 
