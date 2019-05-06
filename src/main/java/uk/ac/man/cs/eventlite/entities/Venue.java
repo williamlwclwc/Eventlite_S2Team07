@@ -43,7 +43,6 @@ public class Venue {
 	@Transient
 	private String address;
 	
-	@NotBlank
 	private String owner;
 	
 	@PostLoad

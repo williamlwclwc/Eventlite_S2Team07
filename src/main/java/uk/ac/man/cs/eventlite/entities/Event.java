@@ -46,7 +46,6 @@ public class Event {
     @Size(max=255, message = "Must be less than 256 characters.")
 	private String name;
     
-    @NotBlank
 	private String organiser;
 	
 	@Size(min=0, max=499)
