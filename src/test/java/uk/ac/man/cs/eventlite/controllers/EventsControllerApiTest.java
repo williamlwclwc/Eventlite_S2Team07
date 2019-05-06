@@ -74,7 +74,7 @@ public class EventsControllerApiTest {
 	}
 	
 	@Test
-	public void getIndexWithEvent() throws Exception {
+	public void getEventDetails() throws Exception {
 		Event e = new Event();
 		when(eventService.findById(0)).thenReturn((Event) e);
 
@@ -85,7 +85,7 @@ public class EventsControllerApiTest {
 
 
 		verify(eventService).findById(0);
-		}
+	}
 	
 
 	@Test
