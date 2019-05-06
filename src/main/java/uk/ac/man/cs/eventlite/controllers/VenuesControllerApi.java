@@ -13,6 +13,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -74,12 +75,13 @@ public class VenuesControllerApi {
 
 	private Resources<Resource<Venue>> venueListToResource(Iterable<Venue> venues) {
 		Link selfLink = linkTo(methodOn(VenuesControllerApi.class).getAllVenues()).withSelfRel();
+		Link profileLink = linkTo(ProfileControllerApi.class).slash("venues").withRel("profile");
 
 		List<Resource<Venue>> resources = new ArrayList<Resource<Venue>>();
 		for (Venue venue : venues) {
 			resources.add(venueToResource(venue));
 		}
 
-		return new Resources<Resource<Venue>>(resources, selfLink);
+		return new Resources<Resource<Venue>>(resources, selfLink, profileLink);
 	}
 }

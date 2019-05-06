@@ -82,6 +82,7 @@ public class VenuesControllerApiTest {
 		mvc.perform(get("/api/venues").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(handler().methodName("getAllVenues")).andExpect(jsonPath("$.length()", equalTo(2)))
 				.andExpect(jsonPath("$._links.self.href", endsWith("/api/venues")))
+				.andExpect(jsonPath("$._links.profile.href", endsWith("/api/profile/venues")))
 				.andExpect(jsonPath("$._embedded.venues.length()", equalTo(1)));
 
 		verify(venueService).findAll();
