@@ -212,6 +212,7 @@ public class EventsControllerTest {
 		      .andExpect(view().name("redirect:/events/view/{id}")); 
 	}
 	
+	@Test
 	public void testTwitterNoContent() throws Exception {
 	    
 	    // TEST FOR WHEN USER IS AUTHORISED (LOGGED IN)
@@ -223,7 +224,7 @@ public class EventsControllerTest {
 	          .param("Share event", "Time: " + ""))
 	      .andExpect(status().is(302))
 	      .andExpect(handler().methodName("tweetEvent"))
-	      .andExpect(view().name("/events/view/{id}")); 
+	      .andExpect(view().name("redirect:/events/view/{id}")); 
 	}
 	
 	@Test
@@ -239,6 +240,59 @@ public class EventsControllerTest {
 	      .andExpect(handler().methodName("tweetEvent"))
 	      .andExpect(view().name("redirect:/connect/twitter"));  
 	    
+	}
+	@Test
+	public void UpdateValidEvent() throws Exception {
+		
+		mvc.perform(MockMvcRequestBuilders.post("/events/update").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.param("id", "1")	
+				.param("name", name)
+				.param("date", date)
+				.param("time", time)
+				.param("description", description)
+				.param("venue.id", venueId)
+				.accept(MediaType.TEXT_HTML).with(csrf()))
+			.andExpect(status().isFound())
+			.andExpect(view().name("redirect:/events"))
+			.andExpect(model().hasNoErrors())
+			.andExpect(handler().methodName("updateEvent"));
+
+	}
+
+	@Test
+	public void eventStillUpdatedWithoutDescription() throws Exception {
+		
+		mvc.perform(MockMvcRequestBuilders.post("/events/update").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.param("id", "1")	
+				.param("name", name)
+				.param("date", date)
+				.param("time", time)
+				.param("description", "")
+				.param("venue.id", venueId)
+				.accept(MediaType.TEXT_HTML).with(csrf()))
+			.andExpect(status().isFound())
+			.andExpect(view().name("redirect:/events"))
+			.andExpect(model().hasNoErrors())
+			.andExpect(handler().methodName("updateEvent"));
+
+	}
+	
+	@Test
+	public void eventStillUpdatedWithoutTime() throws Exception {
+		
+		mvc.perform(MockMvcRequestBuilders.post("/events/update").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.param("id", "1")	
+				.param("name", name)
+				.param("date", date)
+				.param("time", "")
+				.param("description", description)
+				.param("venue.id", venueId)
+				.accept(MediaType.TEXT_HTML).with(csrf()))
+			.andExpect(status().isFound())
+			.andExpect(view().name("redirect:/events"))
+			.andExpect(model().hasNoErrors())
+			.andExpect(handler().methodName("updateEvent"));
+
 	}
 	
 	@Test
@@ -258,6 +312,39 @@ public class EventsControllerTest {
 
 	}
 
+	@Test
+	public void eventStillCreatedWithoutDescription() throws Exception {
+		
+		mvc.perform(MockMvcRequestBuilders.post("/events").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.param("name", name)
+				.param("date", date)
+				.param("time", time)
+				.param("description", "")
+				.param("venue.id", venueId)
+				.accept(MediaType.TEXT_HTML).with(csrf()))
+			.andExpect(status().isFound())
+			.andExpect(view().name("redirect:/events"))
+			.andExpect(model().hasNoErrors())
+			.andExpect(handler().methodName("createEvent"));
+
+	}
+	@Test
+	public void eventStillCreatedWithoutTime() throws Exception {
+		
+		mvc.perform(MockMvcRequestBuilders.post("/events").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.param("name", name)
+				.param("date", date)
+				.param("time", "")
+				.param("description", description)
+				.param("venue.id", venueId)
+				.accept(MediaType.TEXT_HTML).with(csrf()))
+			.andExpect(status().isFound())
+			.andExpect(view().name("redirect:/events"))
+			.andExpect(model().hasNoErrors())
+			.andExpect(handler().methodName("createEvent"));
+
+	}
+	
 	@Test
 	public void updateEventNoCsrf() throws Exception {
 	

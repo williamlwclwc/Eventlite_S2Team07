@@ -37,7 +37,6 @@ public class Event {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date date;
 
-	@NotNull(message = "Time set incorrectly")
 	@Temporal(TemporalType.TIME)
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	@DateTimeFormat(pattern = "HH:mm")
