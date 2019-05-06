@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class HomepageController {
 
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String getAllEvents(Model model) {
+	public String getAllEvents(Model model, Authentication auth) {
 
 		
 		
@@ -81,6 +82,13 @@ public class HomepageController {
 		}
 		
 		Iterator<Event> newItr = allEvents.iterator();
+		
+		if (auth != null && auth.isAuthenticated()) {
+			ArrayList<Event> organiserEvents = new ArrayList<Event>();
+			organiserEvents.addAll(eventService.findAllByOrganiserName(auth.getName()));
+			model.addAttribute("organiser_events", organiserEvents);
+		}
+		
 		
 		model.addAttribute("event1", newItr.next());
 		model.addAttribute("event2", newItr.next());

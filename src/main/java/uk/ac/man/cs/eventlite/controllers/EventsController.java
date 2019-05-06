@@ -130,15 +130,9 @@ public class EventsController {
 	}
 
 	@RequestMapping(value = "view/{id}", method = RequestMethod.GET)
-	public String viewEvent(@PathVariable("id") long id, Model model, Authentication auth) {
-		ArrayList<Event> mapEvents = new ArrayList<Event>();
+	public String viewEvent(@PathVariable("id") long id, Model model) {
 		Event event = eventService.findById(id);
 		model.addAttribute("event", event);
-		mapEvents.add(event);
-		if (auth != null && auth.isAuthenticated()) {
-			mapEvents.addAll(eventService.findAllByOrganiserName(auth.getName()));
-		}
-		model.addAttribute("map_events", mapEvents);
 		
 		return "events/view";
     }

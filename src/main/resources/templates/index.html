@@ -110,7 +110,10 @@
 
               </tbody>
             </table>
-          
+          <div sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
+          	<h3>Your organised events (future and past)</h3>
+          	<div th:replace="events/map :: map(events=${organiser_events})"></div>
+          </div>
   </div>
 
   <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
