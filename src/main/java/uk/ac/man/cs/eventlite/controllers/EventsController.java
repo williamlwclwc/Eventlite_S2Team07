@@ -64,7 +64,7 @@ public class EventsController {
 		model.addAttribute("past_events", eventService.findAllPastEvents());
 		List<Tweet> feed = new ArrayList<>();
 		try {
-			feed = twitter.timelineOperations().getUserTimeline();
+			feed = twitter.timelineOperations().getUserTimeline("EventLiteH07_19");
 				if (feed.size() > 5)
 					feed = feed.subList(0, 4);
 		} catch (MissingAuthorizationException e) {
