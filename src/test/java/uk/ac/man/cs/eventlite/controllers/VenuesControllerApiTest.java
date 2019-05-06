@@ -35,6 +35,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import uk.ac.man.cs.eventlite.EventLite;
 import uk.ac.man.cs.eventlite.dao.VenueService;
+import uk.ac.man.cs.eventlite.entities.Event;
 import uk.ac.man.cs.eventlite.entities.Venue;
 
 @RunWith(SpringRunner.class)
@@ -75,8 +76,8 @@ public class VenuesControllerApiTest {
 
 	@Test
 	public void getIndexWithVenues() throws Exception {
-		Venue e = new Venue();
-		when(venueService.findAll()).thenReturn(Collections.<Venue> singletonList(e));
+		Venue v = new Venue();
+		when(venueService.findAll()).thenReturn(Collections.<Venue> singletonList(v));
 
 		mvc.perform(get("/api/venues").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(handler().methodName("getAllVenues")).andExpect(jsonPath("$.length()", equalTo(2)))
@@ -84,5 +85,21 @@ public class VenuesControllerApiTest {
 				.andExpect(jsonPath("$._embedded.venues.length()", equalTo(1)));
 
 		verify(venueService).findAll();
+	}
+	
+	@Test
+	public void getVenueDetails() throws Exception {
+		Venue v = new Venue();
+		when(venueService.findById(0)).thenReturn((Venue) v);
+
+		mvc.perform(get("/api/venues/0").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+				.andExpect(handler().methodName("getVenue")).andExpect(jsonPath("$.length()", equalTo(9)))
+				.andExpect(jsonPath("$._links.self.href", endsWith("/api/venues/0")))
+				.andExpect(jsonPath("$._links.venue.href", endsWith("/api/venues/0")))
+				.andExpect(jsonPath("$._links.events.href", endsWith("venues/0/events")))
+				.andExpect(jsonPath("$._links.next3events.href", endsWith("venues/0/next3events")));
+
+
+		verify(venueService).findById(0);
 	}
 }
