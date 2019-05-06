@@ -10,7 +10,7 @@
     <h1 th:text="${event.name}">My Event</h1>
 
     <h3 th:text="'Date: ' + ${event.date}">Event date</h3>
-    <h3 th:text="'Time: ' + ${event.time}">Event time</h3>
+    <h3 th:if="${event.time}" th:text="'Time: ' + ${event.time}">Event time</h3>
     <h3> Description: </h3>
     <p th:text="${event.description}">Event description</p>
     <h3> Organised by: </h3>
