@@ -68,7 +68,7 @@ public class EventsControllerTest {
 	private final static String date = "2019-07-11";
 	private final static String time = "10:30";
 	private final static String description = "Blah, blah, blah";
-	
+	private final static String venueId = "1";
 	
 	@Autowired
 	private Filter springSecurityFilterChain;
@@ -241,112 +241,176 @@ public class EventsControllerTest {
 	    
 	}
 	
-	//=================Draft Code=======
-	/* Copied code over from venueControllerTests and currently need to figure out how to pass a mock venue as a 
-	 * parameter to the event to make it work.*/
-//	@Test
-//	public void createValidEvent() throws Exception {
-//		ArgumentCaptor<Event> arg = ArgumentCaptor.forClass(Event.class);
-//		when(venueService.findById(1)).thenReturn(venue);
-//		
-//		mvc.perform(MockMvcRequestBuilders.post("/events").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-//				.param("name", name)
-//				.param("date", date)
-//				.param("time", time)
-//				.param("description", description)
-//				.param("venue", String.valueOf(venue.getId()))
-//				.accept(MediaType.TEXT_HTML).with(csrf()))
-//			.andExpect(status().isOk()).andExpect(content().string(""))
-//			.andExpect(model().hasNoErrors())
-//			.andExpect(handler().methodName("createEvent"));
-//		
-//		verify(eventService).save(arg.capture());
-//		assertThat(name, equalTo(arg.getValue().getName()));
-//	
-//	}
+	@Test
+	public void createValidEvent() throws Exception {
+		
+		mvc.perform(MockMvcRequestBuilders.post("/events").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.param("name", name)
+				.param("date", date)
+				.param("time", time)
+				.param("description", description)
+				.param("venue.id", venueId)
+				.accept(MediaType.TEXT_HTML).with(csrf()))
+			.andExpect(status().isFound())
+			.andExpect(view().name("redirect:/events"))
+			.andExpect(model().hasNoErrors())
+			.andExpect(handler().methodName("createEvent"));
 
-//	@Test
-//	public void updateEventNoCsrf() throws Exception {
-//		mvc.perform(MockMvcRequestBuilders.post("/events/update").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-//				.param("id", "1")
-//				.param("name", name)
-//				.param("date", date)
-//				.param("time", time)
-//				.param("description", description)
-//				.accept(MediaType.TEXT_HTML))
-//				.andExpect(status().isForbidden());
-//		
-//		verify(eventService, never()).save(event);
-//	}
-//	
-//	@Test
-//	public void updateVenueWithBadRole() throws Exception {
-//		mvc.perform(MockMvcRequestBuilders.post("/venues/update").with(user("Rob").roles(BAD_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-//				.param("id", "1")
-//				.param("name", name)
-//				.param("roadName", roadName)
-//				.param("postCode", postCode)
-//				.param("capacity", capacity)
-//				.accept(MediaType.TEXT_HTML))
-//				.andExpect(status().isForbidden());
-//		
-//		verify(venueService, never()).save(venue);
-//	}
-//	
+	}
 
-//	
-//	@Test
-//	public void UpdateWithoutName() throws Exception{
-//		InvalidVenueUpdate("", roadName, postCode, capacity, "name");
-//	}
-//	
-//	@Test
-//	public void UpdateWithTooLongName() throws Exception{//tested with 260 chars
-//		InvalidVenueUpdate("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz", 
-//				roadName, postCode, capacity, "name");
-//	}
-//	
-//	@Test
-//	public void UpdateWithoutRoadName() throws Exception{
-//		InvalidVenueUpdate(name, "", postCode, capacity, "roadName");
-//	}
-//	
-//	@Test
-//	public void UpdateWithTooLongRoadName() throws Exception{
-//		InvalidVenueUpdate(name, 
-//				"abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz", 
-//				postCode, capacity, "roadName");
-//	}
-//	
-//	@Test
-//	public void UpdateWithoutPostCode() throws Exception{
-//		InvalidVenueUpdate(name, roadName, "", capacity, "postCode");
-//	}
-//	
-//	@Test
-//	public void UpdateWithoutCapacity() throws Exception{
-//		InvalidVenueUpdate(name, roadName, postCode, "", "capacity");
-//	}
-//	
-//	@Test
-//	public void UpdateWithNegativeCapacity() throws Exception{
-//		InvalidVenueUpdate(name, roadName, postCode, "-1", "capacity");
-//	}
-//	
-//	private void InvalidVenueUpdate(String name1, String roadName1, String postCode1, String capacity1, String errors1) throws Exception{
-//		mvc.perform(MockMvcRequestBuilders.post("/venues/update").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-//				.param("id", "1")
-//				.param("name", name1)
-//				.param("roadName", roadName1)
-//				.param("postCode", postCode1)
-//				.param("capacity", capacity1)
-//				.accept(MediaType.TEXT_HTML).with(csrf()))
-//			.andExpect(status().isOk()).andExpect(view().name("venues/update"))
-//			.andExpect(model().attributeHasFieldErrors("venue", errors1))
-//			.andExpect(handler().methodName("SaveEditedVenue")).andExpect(flash().attributeCount(0));
-//		verify(venueService, never()).save(venue);
-//	}
-//=========================
+	@Test
+	public void updateEventNoCsrf() throws Exception {
+	
+		mvc.perform(MockMvcRequestBuilders.post("/events/update").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)	
+			.param("id", "1")	
+			.param("name", name)
+			.param("date", date)
+			.param("time", time)
+			.param("description", description)
+			.param("venue.id", venueId)
+			.accept(MediaType.TEXT_HTML))
+		.andExpect(status().isForbidden());
+
+}
+	
+	
+	@Test
+	public void createEventNoCsrf() throws Exception {
+	
+		mvc.perform(MockMvcRequestBuilders.post("/events").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)		
+			.param("name", name)
+			.param("date", date)
+			.param("time", time)
+			.param("description", description)
+			.param("venue.id", venueId)
+			.accept(MediaType.TEXT_HTML))
+		.andExpect(status().isForbidden());
+
+}
+
+	@Test
+	public void updateVenueWithBadRole() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.post("/events/update").with(user("Rob").roles(BAD_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.param("id", "1")
+				.param("name", name)
+				.param("date", date)
+				.param("time", time)
+				.param("description", description)
+				.param("venue.id", venueId)
+				.accept(MediaType.TEXT_HTML).with(csrf()))
+			.andExpect(status().isForbidden());
+
+		verify(eventService, never()).save(event);
+	}
+	
+	
+	@Test
+	public void createVenueWithBadRole() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.post("/events").with(user("Rob").roles(BAD_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.param("name", name)
+				.param("date", date)
+				.param("time", time)
+				.param("description", description)
+				.param("venue.id", venueId)
+				.accept(MediaType.TEXT_HTML).with(csrf()))
+			.andExpect(status().isForbidden());
+
+		verify(eventService, never()).save(event);
+	}
+	
+	
+	@Test
+	public void updateWithoutName() throws Exception{
+		invalidEventUpdate("", date, time, description, venueId, "name");
+	}
+	
+	@Test
+	public void updateWithoutDate() throws Exception{
+		invalidEventUpdate(name, "", time, description, venueId, "date");
+	}
+	
+	@Test
+	public void updateWithoutVenue() throws Exception{
+		invalidEventUpdate(name, date, time, description, "", "venue.id");
+	}
+	
+	@Test
+	public void updateWithNameTooLong() throws Exception{//tested with 260 chars
+		invalidEventUpdate("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz", 
+				date, time, description, venueId, "name");
+	}
+	
+	@Test
+	public void updateWithPastDate() throws Exception{
+		invalidEventUpdate(name, "2000-08-01", time, description, venueId, "date");
+	}
+	
+	@Test
+	public void updateWithDescriptionTooLong() throws Exception{//tested with 520 chars
+		invalidEventUpdate(name, date, time, "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz", 
+				venueId, "description");
+	}
+	
+	private void invalidEventUpdate(String name1, String date1, String time1, String description1, String venue_id1, String errors1) throws Exception{
+		mvc.perform(MockMvcRequestBuilders.post("/events/update").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.param("id", "1")	
+				.param("name", name1)
+				.param("date", date1)
+				.param("time", time1)
+				.param("description", description1)
+				.param("venue.id", venue_id1)
+				.accept(MediaType.TEXT_HTML).with(csrf()))
+			.andExpect(status().isOk()).andExpect(view().name("events/update"))
+			.andExpect(model().attributeHasFieldErrors("event", errors1))
+			.andExpect(handler().methodName("updateEvent")).andExpect(flash().attributeCount(0));
+		verify(eventService, never()).save(event);
+	}
+
+	@Test
+	public void createWithoutName() throws Exception{
+		invalidEventCreate("", date, time, description, venueId, "name");
+	}
+	
+	@Test
+	public void createWithoutDate() throws Exception{
+		invalidEventCreate(name, "", time, description, venueId, "date");
+	}
+	
+	@Test
+	public void createWithoutVenue() throws Exception{
+		invalidEventCreate(name, date, time, description, "", "venue.id");
+	}
+	
+	@Test
+	public void createWithNameTooLong() throws Exception{//tested with 260 chars
+		invalidEventCreate("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz", 
+				date, time, description, venueId, "name");
+	}
+	
+	@Test
+	public void createWithPastDate() throws Exception{
+		invalidEventCreate(name, "2000-08-01", time, description, venueId, "date");
+	}
+	
+	@Test
+	public void createWithDescriptionTooLong() throws Exception{//tested with 520 chars
+		invalidEventCreate(name, date, time, "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz", 
+				venueId, "description");
+	}
+	
+	private void invalidEventCreate(String name1, String date1, String time1, String description1, String venue_id1, String errors1) throws Exception{
+		mvc.perform(MockMvcRequestBuilders.post("/events").with(user("Rob").roles(Security.ADMIN_ROLE)).contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)	
+				.param("name", name1)
+				.param("date", date1)
+				.param("time", time1)
+				.param("description", description1)
+				.param("venue.id", venue_id1)
+				.accept(MediaType.TEXT_HTML).with(csrf()))
+			.andExpect(status().isOk()).andExpect(view().name("events/new"))
+			.andExpect(model().attributeHasFieldErrors("event", errors1))
+			.andExpect(handler().methodName("createEvent")).andExpect(flash().attributeCount(0));
+		verify(eventService, never()).save(event);
+	}
 	@Test
 	public void searchURIRedirect() throws Exception {
 		when(eventService.findAll()).thenReturn(null);
