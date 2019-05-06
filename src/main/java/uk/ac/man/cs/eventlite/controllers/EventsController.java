@@ -66,7 +66,7 @@ public class EventsController {
 		try {
 			feed = twitter.timelineOperations().getUserTimeline("EventLiteH07_19");
 				if (feed.size() > 5)
-					feed = feed.subList(0, 4);
+					feed = feed.subList(0, 5);
 		} catch (MissingAuthorizationException e) {
 			e.printStackTrace();
 		}
